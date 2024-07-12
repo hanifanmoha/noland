@@ -1,0 +1,5 @@
+.paramTitle {
+  &:hover {
+    text-decoration: underline;
+  }
+}
