@@ -58,7 +58,8 @@ const MockerFormDrawer = ({
       title={mode === 'edit' ? field?.name : 'Create New Field'}
       onClose={onClose}
       open={isOpen}
-      placement='bottom'
+      // placement='bottom'
+      size='large'
       extra={
         <Space>
           <Button onClick={onClose}>Cancel</Button>
