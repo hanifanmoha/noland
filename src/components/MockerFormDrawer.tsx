@@ -4,13 +4,11 @@ import debugLogger from '@/utils/log'
 import { Button, Drawer, Form, FormProps, Input, Select, Space } from 'antd'
 import { uuid } from 'uuidv4'
 
-const logger = debugLogger(true)
-
 interface IMockerFormDrawerProps {
   isOpen: boolean
   field?: IField
   mode?: 'edit' | 'create'
-  onSave: (field: IField, key?: string) => void
+  onSave: (field: IField) => void
   onClose: () => void
 }
 
@@ -26,17 +24,19 @@ const MockerFormDrawer = ({
   onSave,
   onClose,
 }: IMockerFormDrawerProps) => {
+  const logger = debugLogger('MockerFormDrawer', false)
+
   const [form] = Form.useForm()
 
   const onFinish: FormProps<IFormValues>['onFinish'] = (values) => {
-    logger.log('MockerFormDrawer.onFinish', values)
+    logger.log('onFinish', values)
     if (mode === 'edit' && field) {
       const val: IField = {
         key: field.key,
         name: values.name,
         type: values.type,
       }
-      return onSave(val, field.key)
+      return onSave(val)
     } else if (mode === 'create') {
       const val: IField = {
         key: uuid(),
@@ -77,23 +77,21 @@ const MockerFormDrawer = ({
     >
       <Form
         form={form}
-        initialValues={field}
+        initialValues={mode === 'edit' ? field : undefined}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
       >
-        <Space direction='vertical' size='large'>
-          <Form.Item label='Name' name='name' rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
-          <Form.Item label='Type' name='type' rules={[{ required: true }]}>
-            <Select
-              options={Object.keys(FieldType).map((f: string) => ({
-                label: f,
-                value: FieldType[f as keyof typeof FieldType],
-              }))}
-            />
-          </Form.Item>
-        </Space>
+        <Form.Item label='Name' name='name' rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>
+        <Form.Item label='Type' name='type' rules={[{ required: true }]}>
+          <Select
+            options={Object.keys(FieldType).map((f: string) => ({
+              label: f,
+              value: FieldType[f as keyof typeof FieldType],
+            }))}
+          />
+        </Form.Item>
       </Form>
     </Drawer>
   )

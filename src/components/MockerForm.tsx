@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Button, Card, Popover, Space, Tree } from 'antd'
+import { Button, Card, Popover, Space, Tree, Typography } from 'antd'
 import type { TreeDataNode } from 'antd'
 import {
   BorderlessTableOutlined,
@@ -21,8 +21,6 @@ import debugLogger from '@/utils/log'
 
 const { DirectoryTree } = Tree
 
-const logger = debugLogger(true)
-
 interface IFormDrawerState {
   isOpen: boolean
   mode?: 'edit' | 'create'
@@ -41,7 +39,7 @@ const getIcon = (type: FieldType) => {
 
 const field2TreeData = (field: IField): TreeDataNode => {
   return {
-    title: field.name,
+    title: `${field.name}`,
     key: field.key,
     children: (field.children ?? []).map(field2TreeData),
     icon: getIcon(field.type),
@@ -49,13 +47,16 @@ const field2TreeData = (field: IField): TreeDataNode => {
 }
 
 const MockerForm = () => {
+  const logger = debugLogger('MockerForm', false)
+
   const [formDrawer, setFormDrawer] = useState<IFormDrawerState>({
     isOpen: false,
   })
-  const { fieldTree, fieldMap } = useMocker()
+  const { fieldTree, fieldMap, onUpdateField, onInsertField, onRemoveField } =
+    useMocker()
   const treeData = field2TreeData(fieldTree)
 
-  const onFromDrawerClosed = () => {
+  const onFormDrawerClosed = () => {
     setFormDrawer({ isOpen: false })
   }
 
@@ -64,15 +65,23 @@ const MockerForm = () => {
       e.stopPropagation()
       const field = fieldMap[param.key as string]
       if (action === 'remove') {
+        onRemoveField(field?.key)
       } else if (action === 'add') {
-        setFormDrawer({ isOpen: true, mode: 'create' })
+        setFormDrawer({ isOpen: true, mode: 'create', field: field })
       } else {
-        setFormDrawer({ isOpen: true, mode: 'edit', field: field.field })
+        setFormDrawer({ isOpen: true, mode: 'edit', field: field })
       }
     }
 
-  const onFromDrawerSubmit = (field: IField, key?: string) => {
-    logger.log('MockerForm.onFromDrawerSubmit', formDrawer.mode, key, field)
+  const onFormDrawerSubmit = (field: IField) => {
+    logger.log('onFromDrawerSubmit', formDrawer.mode, field)
+
+    if (formDrawer.mode === 'edit') {
+      onUpdateField(field)
+    } else if (formDrawer.mode === 'create' && formDrawer.field) {
+      onInsertField(field, formDrawer.field?.key)
+    }
+
     setFormDrawer({ isOpen: false })
   }
 
@@ -90,7 +99,7 @@ const MockerForm = () => {
         >
           Edit
         </Button>
-        {[FieldType.ARRAY, FieldType.OBJECT].includes(field.field.type) && (
+        {[FieldType.ARRAY, FieldType.OBJECT].includes(field.type) && (
           <Button
             icon={<PlusOutlined />}
             block
@@ -141,8 +150,8 @@ const MockerForm = () => {
         isOpen={formDrawer.isOpen}
         mode={formDrawer.mode}
         field={formDrawer.field}
-        onSave={onFromDrawerSubmit}
-        onClose={onFromDrawerClosed}
+        onSave={onFormDrawerSubmit}
+        onClose={onFormDrawerClosed}
       />
     </Space>
   )

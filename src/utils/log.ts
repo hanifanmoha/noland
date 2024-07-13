@@ -1,13 +1,14 @@
 const log =
-  (isDebug: boolean) =>
+  (fKey: string, isDebug: boolean) =>
   (key: any, ...args: any) => {
-    console.log(`[${key}]`, ...args)
+    if (!isDebug) return
+    console.log(`[${fKey}.${key}]`, ...args)
   }
 
-const debugLogger = (_isDebug: boolean) => {
+const debugLogger = (fKey: string, _isDebug: boolean) => {
   const isDebug = _isDebug
   return {
-    log: log(isDebug),
+    log: log(fKey, isDebug),
   }
 }
 

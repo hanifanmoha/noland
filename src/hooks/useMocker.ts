@@ -3,6 +3,7 @@ import { uuid } from 'uuidv4'
 
 import { IField } from '@/interfaces/interfaces'
 import { FieldType } from '@/utils/enums'
+import debugLogger from '@/utils/log'
 
 export const ROOT_NAME = ':root:'
 
@@ -40,13 +41,10 @@ const initialFieldTree: IField = {
 const field2Map = (
   field: IField,
   parent?: IField
-): { [key: string]: { field: IField; parent?: IField } } => {
-  let map: { [key: string]: { field: IField; parent?: IField } } = {}
+): { [key: string]: IFieldWithParent } => {
+  let map: { [key: string]: IFieldWithParent } = {}
 
-  map[field.key] = {
-    field,
-    parent,
-  }
+  map[field.key] = { ...field, parent }
 
   for (let child of field.children ?? []) {
     const childMap = field2Map(child, field)
@@ -56,17 +54,90 @@ const field2Map = (
   return map
 }
 
+const traverseUpdate = (current: IField, updated: IField): IField => {
+  const res: IField = { ...current }
+
+  res.children = res.children?.map((child) => traverseUpdate(child, updated))
+
+  if (current.key !== updated.key) {
+    return res
+  }
+
+  res.name = updated.name
+  res.type = updated.type
+
+  if (![FieldType.ARRAY, FieldType.OBJECT].includes(res.type)) {
+    res.children = []
+  }
+
+  return res
+}
+
+const traverseInsert = (
+  current: IField,
+  inserted: IField,
+  parentKey: string
+): IField => {
+  const res: IField = { ...current }
+
+  res.children = res.children?.map((child) =>
+    traverseInsert(child, inserted, parentKey)
+  )
+
+  if (
+    [FieldType.ARRAY, FieldType.OBJECT].includes(res.type) &&
+    parentKey === res.key
+  ) {
+    res.children = [...(res.children ?? []), inserted]
+  }
+
+  return res
+}
+
+const traverseRemove = (current: IField, removedKey: string): IField => {
+  const res: IField = { ...current }
+  res.children = res.children
+    ?.filter((child) => child.key !== removedKey)
+    .map((child) => traverseRemove(child, removedKey))
+  return res
+}
+
+type IFieldWithParent = IField & { parent?: IField }
+
 interface IUseMocker {
   fieldTree: IField
-  fieldMap: { [key: string]: { field: IField; parent?: IField } }
+  fieldMap: { [key: string]: IFieldWithParent }
+  onUpdateField: (field: IField) => void
+  onInsertField: (field: IField, parentKey: string) => void
+  onRemoveField: (fieldKey: string) => void
 }
 
 const useMocker = (): IUseMocker => {
+  const logger = debugLogger('useMocker', true)
+
   const [fieldTree, setFieldTree] = useState(initialFieldTree)
 
   const fieldMap = field2Map(fieldTree, undefined)
 
-  return { fieldTree, fieldMap }
+  const onUpdateField = (field: IField) => {
+    logger.log('onUpdateField', field)
+    const updatedRoot = traverseUpdate(fieldTree, field)
+    setFieldTree(updatedRoot)
+  }
+
+  const onInsertField = (field: IField, parentKey: string) => {
+    logger.log('onInsertField', field, parentKey)
+    const updatedRoot = traverseInsert(fieldTree, field, parentKey)
+    setFieldTree(updatedRoot)
+  }
+
+  const onRemoveField = (fieldKey: string) => {
+    logger.log('onRemoveField', fieldKey)
+    const updatedRoot = traverseRemove(fieldTree, fieldKey)
+    setFieldTree(updatedRoot)
+  }
+
+  return { fieldTree, fieldMap, onUpdateField, onInsertField, onRemoveField }
 }
 
 export default useMocker
