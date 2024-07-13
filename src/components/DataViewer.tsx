@@ -1,5 +1,7 @@
 'use client'
 
+import useMocker from '@/hooks/useMocker'
+import { renderMocker } from '@/utils/mock'
 import { JSONTree } from 'react-json-tree'
 
 const mock = {
@@ -32,6 +34,10 @@ const mock = {
 }
 
 const DataViewer = () => {
+  const { fieldTree } = useMocker()
+
+  const jsonData = renderMocker(fieldTree)
+
   return (
     <div
       style={{
@@ -41,7 +47,7 @@ const DataViewer = () => {
         fontSize: 16,
       }}
     >
-      <JSONTree data={mock} shouldExpandNodeInitially={() => true} />
+      <JSONTree data={jsonData} shouldExpandNodeInitially={() => true} />
     </div>
   )
 }

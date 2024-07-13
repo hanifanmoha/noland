@@ -1,13 +1,14 @@
-import { useState } from 'react'
+import { createContext, ReactNode, useContext, useState } from 'react'
 import { uuid } from 'uuidv4'
 
 import { IField } from '@/interfaces/interfaces'
 import { FieldType } from '@/utils/enums'
 import debugLogger from '@/utils/log'
+import { MockerContext, useMockerContext } from '@/contexts/MockerContext'
 
 export const ROOT_NAME = ':root:'
 
-const initialFieldTree: IField = {
+export const initialFieldTree: IField = {
   isRoot: true,
   name: ROOT_NAME,
   type: FieldType.OBJECT,
@@ -115,7 +116,7 @@ interface IUseMocker {
 const useMocker = (): IUseMocker => {
   const logger = debugLogger('useMocker', true)
 
-  const [fieldTree, setFieldTree] = useState(initialFieldTree)
+  const { fieldTree, setFieldTree } = useMockerContext()
 
   const fieldMap = field2Map(fieldTree, undefined)
 
