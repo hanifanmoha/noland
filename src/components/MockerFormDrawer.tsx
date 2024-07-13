@@ -1,30 +1,56 @@
 import { IField } from '@/interfaces/interfaces'
 import { FieldType } from '@/utils/enums'
+import debugLogger from '@/utils/log'
 import { Button, Drawer, Form, FormProps, Input, Select, Space } from 'antd'
+import { uuid } from 'uuidv4'
+
+const logger = debugLogger(true)
 
 interface IMockerFormDrawerProps {
   isOpen: boolean
   field?: IField
   mode?: 'edit' | 'create'
+  onSave: (field: IField, key?: string) => void
   onClose: () => void
 }
 
+interface IFormValues {
+  name: string
+  type: FieldType
+}
+
 const MockerFormDrawer = ({
-  onClose,
   isOpen,
   mode,
   field,
+  onSave,
+  onClose,
 }: IMockerFormDrawerProps) => {
   const [form] = Form.useForm()
 
-  const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-    console.log('Success:', values)
+  const onFinish: FormProps<IFormValues>['onFinish'] = (values) => {
+    logger.log('MockerFormDrawer.onFinish', values)
+    if (mode === 'edit' && field) {
+      const val: IField = {
+        key: field.key,
+        name: values.name,
+        type: values.type,
+      }
+      return onSave(val, field.key)
+    } else if (mode === 'create') {
+      const val: IField = {
+        key: uuid(),
+        name: values.name,
+        type: values.type,
+      }
+      return onSave(val)
+    }
   }
 
-  const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (
+  const onFinishFailed: FormProps<IFormValues>['onFinishFailed'] = (
     errorInfo
   ) => {
-    console.log('Failed:', errorInfo)
+    logger.log('MockerFormDrawer.onFinishFailed', errorInfo)
   }
 
   return (

@@ -17,8 +17,11 @@ import { IField } from '@/interfaces/interfaces'
 import { FieldType } from '@/utils/enums'
 import MockerFormDrawer from './MockerFormDrawer'
 import useMocker, { ROOT_NAME } from '@/hooks/useMocker'
+import debugLogger from '@/utils/log'
 
 const { DirectoryTree } = Tree
+
+const logger = debugLogger(true)
 
 interface IFormDrawerState {
   isOpen: boolean
@@ -60,7 +63,6 @@ const MockerForm = () => {
     (e: any) => (action: 'add' | 'remove' | 'edit', param: TreeDataNode) => {
       e.stopPropagation()
       const field = fieldMap[param.key as string]
-
       if (action === 'remove') {
       } else if (action === 'add') {
         setFormDrawer({ isOpen: true, mode: 'create' })
@@ -68,6 +70,11 @@ const MockerForm = () => {
         setFormDrawer({ isOpen: true, mode: 'edit', field: field.field })
       }
     }
+
+  const onFromDrawerSubmit = (field: IField, key?: string) => {
+    logger.log('MockerForm.onFromDrawerSubmit', formDrawer.mode, key, field)
+    setFormDrawer({ isOpen: false })
+  }
 
   const titleContent = (props: TreeDataNode) => {
     const field = fieldMap[props.key as string]
@@ -134,6 +141,7 @@ const MockerForm = () => {
         isOpen={formDrawer.isOpen}
         mode={formDrawer.mode}
         field={formDrawer.field}
+        onSave={onFromDrawerSubmit}
         onClose={onFromDrawerClosed}
       />
     </Space>
