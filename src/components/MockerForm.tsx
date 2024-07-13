@@ -13,50 +13,17 @@ import {
 } from '@ant-design/icons'
 
 import styles from './MockerForm.module.css'
-import { uuid } from 'uuidv4'
 import { IField } from '@/interfaces/interfaces'
 import { FieldType } from '@/utils/enums'
 import MockerFormDrawer from './MockerFormDrawer'
+import useMocker, { ROOT_NAME } from '@/hooks/useMocker'
 
 const { DirectoryTree } = Tree
-
-const ROOT_NAME = ':root:'
 
 interface IFormDrawerState {
   isOpen: boolean
   mode?: 'edit' | 'create'
   field?: IField
-}
-
-const initialFieldTree: IField = {
-  isRoot: true,
-  name: ROOT_NAME,
-  type: FieldType.OBJECT,
-  key: uuid(),
-  children: [
-    {
-      name: 'name',
-      type: FieldType.VALUE,
-      key: uuid(),
-    },
-    {
-      name: 'orders',
-      type: FieldType.ARRAY,
-      key: uuid(),
-      children: [
-        {
-          name: 'order_id',
-          type: FieldType.VALUE,
-          key: uuid(),
-        },
-        {
-          name: 'date',
-          type: FieldType.VALUE,
-          key: uuid(),
-        },
-      ],
-    },
-  ],
 }
 
 const getIcon = (type: FieldType) => {
@@ -78,33 +45,12 @@ const field2TreeData = (field: IField): TreeDataNode => {
   }
 }
 
-const field2Map = (
-  field: IField,
-  parent?: IField
-): { [key: string]: { field: IField; parent?: IField } } => {
-  let map: { [key: string]: { field: IField; parent?: IField } } = {}
-
-  map[field.key] = {
-    field,
-    parent,
-  }
-
-  for (let child of field.children ?? []) {
-    const childMap = field2Map(child, field)
-    map = { ...map, ...childMap }
-  }
-
-  return map
-}
-
 const MockerForm = () => {
-  const [fieldTree, setFieldTree] = useState(initialFieldTree)
   const [formDrawer, setFormDrawer] = useState<IFormDrawerState>({
     isOpen: false,
   })
-
+  const { fieldTree, fieldMap } = useMocker()
   const treeData = field2TreeData(fieldTree)
-  const fieldMap = field2Map(fieldTree, undefined)
 
   const onFromDrawerClosed = () => {
     setFormDrawer({ isOpen: false })
@@ -124,6 +70,9 @@ const MockerForm = () => {
     }
 
   const titleContent = (props: TreeDataNode) => {
+    const field = fieldMap[props.key as string]
+    if (!field) return null
+
     return (
       <Space direction='vertical'>
         <Button
@@ -134,13 +83,15 @@ const MockerForm = () => {
         >
           Edit
         </Button>
-        <Button
-          icon={<PlusOutlined />}
-          block
-          onClick={(e) => onParamAction(e)('add', props)}
-        >
-          Create Child
-        </Button>
+        {[FieldType.ARRAY, FieldType.OBJECT].includes(field.field.type) && (
+          <Button
+            icon={<PlusOutlined />}
+            block
+            onClick={(e) => onParamAction(e)('add', props)}
+          >
+            Create Child
+          </Button>
+        )}
         {props.title !== ROOT_NAME && (
           <Button
             danger
@@ -179,6 +130,7 @@ const MockerForm = () => {
         />
       </Card>
       <MockerFormDrawer
+        key={`${formDrawer.mode}-${formDrawer.field?.key}`}
         isOpen={formDrawer.isOpen}
         mode={formDrawer.mode}
         field={formDrawer.field}
