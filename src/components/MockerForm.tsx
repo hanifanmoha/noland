@@ -1,8 +1,8 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Card, Popover, Space, Tree } from 'antd'
-import type { GetProps, TreeDataNode } from 'antd'
+import type { TreeDataNode } from 'antd'
 import {
   BorderlessTableOutlined,
   FolderOutlined,
@@ -13,44 +13,46 @@ import {
 } from '@ant-design/icons'
 
 import styles from './MockerForm.module.css'
-
-type DirectoryTreeProps = GetProps<typeof Tree.DirectoryTree>
+import { uuid } from 'uuidv4'
+import { IField } from '@/interfaces/interfaces'
+import { FieldType } from '@/utils/enums'
+import MockerFormDrawer from './MockerFormDrawer'
 
 const { DirectoryTree } = Tree
 
-enum FieldType {
-  'OBJECT' = 'object',
-  'ARRAY' = 'array',
-  'VALUE' = 'value',
+const ROOT_NAME = ':root:'
+
+interface IFormDrawerState {
+  isOpen: boolean
+  mode?: 'edit' | 'create'
+  field?: IField
 }
 
-interface IField {
-  isRoot?: boolean
-  name: string
-  type: FieldType
-  children?: IField[]
-}
-
-const mock: IField = {
+const initialFieldTree: IField = {
   isRoot: true,
-  name: ':root:',
+  name: ROOT_NAME,
   type: FieldType.OBJECT,
+  key: uuid(),
   children: [
     {
       name: 'name',
       type: FieldType.VALUE,
+      key: uuid(),
     },
     {
       name: 'orders',
       type: FieldType.ARRAY,
+      key: uuid(),
       children: [
         {
           name: 'order_id',
           type: FieldType.VALUE,
+          key: uuid(),
         },
         {
           name: 'date',
           type: FieldType.VALUE,
+          key: uuid(),
         },
       ],
     },
@@ -67,67 +69,121 @@ const getIcon = (type: FieldType) => {
   return <BorderlessTableOutlined />
 }
 
-const mock2TreeData = (mock: IField): TreeDataNode => {
+const field2TreeData = (field: IField): TreeDataNode => {
   return {
-    title: mock.name,
-    key: mock.name,
-    children: (mock.children ?? []).map(mock2TreeData),
-    icon: getIcon(mock.type),
+    title: field.name,
+    key: field.key,
+    children: (field.children ?? []).map(field2TreeData),
+    icon: getIcon(field.type),
   }
 }
 
-const treeData: TreeDataNode[] = [mock2TreeData(mock)]
+const field2Map = (
+  field: IField,
+  parent?: IField
+): { [key: string]: { field: IField; parent?: IField } } => {
+  let map: { [key: string]: { field: IField; parent?: IField } } = {}
+
+  map[field.key] = {
+    field,
+    parent,
+  }
+
+  for (let child of field.children ?? []) {
+    const childMap = field2Map(child, field)
+    map = { ...map, ...childMap }
+  }
+
+  return map
+}
 
 const MockerForm = () => {
-  const onSelect: DirectoryTreeProps['onSelect'] = (keys, info) => {
-    console.log('Trigger Select', keys, info)
+  const [fieldTree, setFieldTree] = useState(initialFieldTree)
+  const [formDrawer, setFormDrawer] = useState<IFormDrawerState>({
+    isOpen: false,
+  })
+
+  const treeData = field2TreeData(fieldTree)
+  const fieldMap = field2Map(fieldTree, undefined)
+
+  const onFromDrawerClosed = () => {
+    setFormDrawer({ isOpen: false })
   }
 
-  const onExpand: DirectoryTreeProps['onExpand'] = (keys, info) => {
-    console.log('Trigger Expand', keys, info)
-  }
+  const onParamAction =
+    (e: any) => (action: 'add' | 'remove' | 'edit', param: TreeDataNode) => {
+      e.stopPropagation()
+      const field = fieldMap[param.key as string]
 
-  const onClickTitle = (props: TreeDataNode) => {
-    console.log(props)
-  }
+      if (action === 'remove') {
+      } else if (action === 'add') {
+        setFormDrawer({ isOpen: true, mode: 'create' })
+      } else {
+        setFormDrawer({ isOpen: true, mode: 'edit', field: field.field })
+      }
+    }
 
-  const titleContent = () => {
+  const titleContent = (props: TreeDataNode) => {
     return (
       <Space direction='vertical'>
-        <Button type='primary' icon={<EditOutlined />} block>
+        <Button
+          type='primary'
+          icon={<EditOutlined />}
+          block
+          onClick={(e) => onParamAction(e)('edit', props)}
+        >
           Edit
         </Button>
-        <Button icon={<PlusOutlined />} block>
+        <Button
+          icon={<PlusOutlined />}
+          block
+          onClick={(e) => onParamAction(e)('add', props)}
+        >
           Create Child
         </Button>
-        <Button danger icon={<DeleteOutlined />} block>
-          Remove
-        </Button>
+        {props.title !== ROOT_NAME && (
+          <Button
+            danger
+            icon={<DeleteOutlined />}
+            block
+            onClick={(e) => onParamAction(e)('remove', props)}
+          >
+            Remove
+          </Button>
+        )}
       </Space>
     )
   }
 
   const title = (props: TreeDataNode) => {
     return (
-      <Popover placement='right' title={props.title as string} content={titleContent}>
-        <span>{props.title as string}</span>
+      <Popover
+        placement='right'
+        title={props.title as string}
+        content={() => titleContent(props)}
+      >
+        <span className={styles.paramTitle}>{props.title as string}</span>
       </Popover>
     )
   }
 
   return (
     <Space direction='vertical' style={spaceStyle}>
-      <Card style={cardStyle}>
+      <Card>
         <DirectoryTree
           multiple
           showLine
           defaultExpandAll
-          onSelect={onSelect}
-          onExpand={onExpand}
-          treeData={treeData}
+          treeData={[treeData]}
           titleRender={title}
         />
       </Card>
+      <MockerFormDrawer
+        isOpen={formDrawer.isOpen}
+        mode={formDrawer.mode}
+        field={formDrawer.field}
+        onClose={onFromDrawerClosed}
+      />
     </Space>
   )
 }
@@ -138,8 +194,4 @@ const spaceStyle: React.CSSProperties = {
   padding: 20,
   width: '100%',
   display: 'flex',
-}
-
-const cardStyle: React.CSSProperties = {
-  // width: '100%'
 }
