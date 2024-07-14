@@ -1,6 +1,9 @@
 import { IField, IFieldConfig } from '@/interfaces/interfaces'
 import { FieldType, ValueType } from './enums'
 import { uuid } from 'uuidv4'
+import { Chance } from 'chance'
+
+const chance = new Chance()
 
 export const encodeFieldTree = (rootField: IField): string => {
   const str = JSON.stringify(rootField)
@@ -17,13 +20,15 @@ const getMockedValue = (config: IFieldConfig) => {
     case ValueType['ID - UUIDV4']:
       return uuid()
     case ValueType['Person - Name']:
-      return 'Person Name'
+      return chance.name()
     case ValueType['Text - Sentence']:
-      return 'Hello World'
+      return chance.sentence()
     case ValueType['Text - Word']:
-      return '<mocked>'
+      return chance.word()
     case ValueType['Web - Email']:
-      return 'test@gmail.com'
+      return chance.email()
+    case ValueType['Time - Date']:
+      return new Date().toDateString()
   }
 }
 

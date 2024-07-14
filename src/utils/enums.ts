@@ -10,4 +10,5 @@ export enum ValueType {
   'Web - Email' = 'web.email',
   'Text - Word' = 'text.word',
   'Text - Sentence' = 'text.sentence',
+  'Time - Date' = 'time.date',
 }

@@ -61,11 +61,9 @@ export const initialFieldTree: IField = {
           key: uuid(),
           name: 'order_date',
           type: FieldType.VALUE,
-        },
-        {
-          key: uuid(),
-          name: 'total_amount',
-          type: FieldType.VALUE,
+          config: {
+            valueType: ValueType['Time - Date'],
+          },
         },
         {
           key: uuid(),
@@ -76,6 +74,9 @@ export const initialFieldTree: IField = {
               key: uuid(),
               name: 'product_id',
               type: FieldType.VALUE,
+              config: {
+                valueType: ValueType['ID - UUIDV4'],
+              },
             },
             {
               key: uuid(),
@@ -104,6 +105,9 @@ export const initialFieldTree: IField = {
               key: uuid(),
               name: 'created_at',
               type: FieldType.VALUE,
+              config: {
+                valueType: ValueType['Time - Date'],
+              },
             },
           ],
         },
