@@ -1,5 +1,6 @@
-import { IField } from '@/interfaces/interfaces'
-import { FieldType } from './enums'
+import { IField, IFieldConfig } from '@/interfaces/interfaces'
+import { FieldType, ValueType } from './enums'
+import { uuid } from 'uuidv4'
 
 export const encodeFieldTree = (rootField: IField): string => {
   const str = JSON.stringify(rootField)
@@ -11,26 +12,47 @@ export const decodeFieldTree = (base64String: string): IField => {
   return JSON.parse(str)
 }
 
-const traverseValue = (current: IField): any => {
-  let val: any = 'Hello World'
+const getMockedValue = (config: IFieldConfig) => {
+  switch (config.valueType) {
+    case ValueType['ID - UUIDV4']:
+      return uuid()
+    case ValueType['Person - Name']:
+      return 'Person Name'
+    case ValueType['Text - Sentence']:
+      return 'Hello World'
+    case ValueType['Text - Word']:
+      return '<mocked>'
+    case ValueType['Web - Email']:
+      return 'test@gmail.com'
+  }
+}
 
+const traverseValue = (current: IField): any => {
   if (current.type === FieldType.ARRAY) {
-    val = []
-    for (let i = 0; i < 5; i++) {
+    const val = []
+    const minLength = 1
+    const maxLength = 3
+    const len = Math.floor(Math.random() * (maxLength - minLength) + minLength)
+    for (let i = 0; i < len; i++) {
       let tmpVal: any = {}
       for (let child of current.children ?? []) {
         tmpVal[child.name] = traverseValue(child)
       }
       val.push(tmpVal)
     }
+    return val
   } else if (current.type === FieldType.OBJECT) {
-    val = {}
+    const val: any = {}
     for (let child of current.children ?? []) {
       val[child.name] = traverseValue(child)
     }
+    return val
+  } else if (current.type === FieldType.VALUE) {
+    if (!current.config) return null
+    return getMockedValue(current.config)
   }
 
-  return val
+  return null
 }
 
 export const renderMocker = (root: IField): any => {

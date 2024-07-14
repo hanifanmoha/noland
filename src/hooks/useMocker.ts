@@ -8,7 +8,7 @@ import {
 import { uuid } from 'uuidv4'
 
 import { IField } from '@/interfaces/interfaces'
-import { FieldType } from '@/utils/enums'
+import { FieldType, ValueType } from '@/utils/enums'
 import debugLogger from '@/utils/log'
 import { MockerContext, useMockerContext } from '@/contexts/MockerContext'
 
@@ -21,66 +21,89 @@ export const initialFieldTree: IField = {
   key: uuid(),
   children: [
     {
-      name: 'customer_name',
-      type: FieldType.VALUE,
       key: uuid(),
-    },
-    {
       name: 'customer_id',
       type: FieldType.VALUE,
-      key: uuid(),
+      config: {
+        valueType: ValueType['ID - UUIDV4'],
+      },
     },
     {
+      key: uuid(),
+      name: 'customer_name',
+      type: FieldType.VALUE,
+      config: {
+        valueType: ValueType['Person - Name'],
+      },
+    },
+    {
+      key: uuid(),
+      name: 'customer_email',
+      type: FieldType.VALUE,
+      config: {
+        valueType: ValueType['Web - Email'],
+      },
+    },
+    {
+      key: uuid(),
       name: 'orders',
       type: FieldType.ARRAY,
-      key: uuid(),
       children: [
         {
+          key: uuid(),
           name: 'order_id',
           type: FieldType.VALUE,
-          key: uuid(),
+          config: {
+            valueType: ValueType['ID - UUIDV4'],
+          },
         },
         {
+          key: uuid(),
           name: 'order_date',
           type: FieldType.VALUE,
-          key: uuid(),
         },
         {
+          key: uuid(),
           name: 'total_amount',
           type: FieldType.VALUE,
-          key: uuid(),
         },
         {
+          key: uuid(),
           name: 'order_details',
           type: FieldType.ARRAY,
-          key: uuid(),
           children: [
             {
+              key: uuid(),
               name: 'product_id',
               type: FieldType.VALUE,
-              key: uuid(),
             },
             {
+              key: uuid(),
               name: 'product_name',
               type: FieldType.VALUE,
-              key: uuid(),
+              config: {
+                valueType: ValueType['Text - Word'],
+              },
             },
           ],
         },
         {
+          key: uuid(),
           name: 'meta',
           type: FieldType.OBJECT,
-          key: uuid(),
           children: [
             {
+              key: uuid(),
               name: 'created_by',
               type: FieldType.VALUE,
-              key: uuid(),
+              config: {
+                valueType: ValueType['Web - Email'],
+              },
             },
             {
+              key: uuid(),
               name: 'created_at',
               type: FieldType.VALUE,
-              key: uuid(),
             },
           ],
         },

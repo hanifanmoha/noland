@@ -1,5 +1,5 @@
 import { IField } from '@/interfaces/interfaces'
-import { FieldType } from '@/utils/enums'
+import { FieldType, ValueType } from '@/utils/enums'
 import debugLogger from '@/utils/log'
 import { Button, Drawer, Form, FormProps, Input, Select, Space } from 'antd'
 import { uuid } from 'uuidv4'
@@ -15,6 +15,15 @@ interface IMockerFormDrawerProps {
 interface IFormValues {
   name: string
   type: FieldType
+  valueType: ValueType
+}
+
+const parseInitialValue = (field: IField): IFormValues => {
+  return {
+    name: field.name,
+    type: field.type,
+    valueType: field?.config?.valueType ?? ValueType['Text - Word'],
+  }
 }
 
 const MockerFormDrawer = ({
@@ -27,22 +36,24 @@ const MockerFormDrawer = ({
   const logger = debugLogger('MockerFormDrawer', false)
 
   const [form] = Form.useForm()
+  const fieldTypeValue = Form.useWatch('type', form)
 
   const onFinish: FormProps<IFormValues>['onFinish'] = (values) => {
     logger.log('onFinish', values)
+
+    const val: IField = {
+      key: uuid(),
+      name: values.name,
+      type: values.type,
+      config: {
+        valueType: values.valueType,
+      },
+    }
+
     if (mode === 'edit' && field) {
-      const val: IField = {
-        key: field.key,
-        name: values.name,
-        type: values.type,
-      }
+      val.key = field.key
       return onSave(val)
     } else if (mode === 'create') {
-      const val: IField = {
-        key: uuid(),
-        name: values.name,
-        type: values.type,
-      }
       return onSave(val)
     }
   }
@@ -51,6 +62,27 @@ const MockerFormDrawer = ({
     errorInfo
   ) => {
     logger.log('MockerFormDrawer.onFinishFailed', errorInfo)
+  }
+
+  const renderFormConfig = () => {
+    if (fieldTypeValue === FieldType.VALUE) {
+      return (
+        <>
+          <Form.Item
+            label='Value Type'
+            name='valueType'
+            rules={[{ required: fieldTypeValue === FieldType.VALUE }]}
+          >
+            <Select
+              options={Object.keys(ValueType).map((f: string) => ({
+                label: f,
+                value: ValueType[f as keyof typeof ValueType],
+              }))}
+            />
+          </Form.Item>
+        </>
+      )
+    }
   }
 
   return (
@@ -78,7 +110,9 @@ const MockerFormDrawer = ({
     >
       <Form
         form={form}
-        initialValues={mode === 'edit' ? field : undefined}
+        initialValues={
+          mode === 'edit' && field ? parseInitialValue(field) : undefined
+        }
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
       >
@@ -93,6 +127,8 @@ const MockerFormDrawer = ({
             }))}
           />
         </Form.Item>
+
+        {renderFormConfig()}
       </Form>
     </Drawer>
   )
