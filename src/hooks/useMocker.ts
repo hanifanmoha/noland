@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useContext, useState } from 'react'
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import { uuid } from 'uuidv4'
 
 import { IField } from '@/interfaces/interfaces'
@@ -15,7 +21,12 @@ export const initialFieldTree: IField = {
   key: uuid(),
   children: [
     {
-      name: 'name',
+      name: 'customer_name',
+      type: FieldType.VALUE,
+      key: uuid(),
+    },
+    {
+      name: 'customer_id',
       type: FieldType.VALUE,
       key: uuid(),
     },
@@ -30,9 +41,48 @@ export const initialFieldTree: IField = {
           key: uuid(),
         },
         {
-          name: 'date',
+          name: 'order_date',
           type: FieldType.VALUE,
           key: uuid(),
+        },
+        {
+          name: 'total_amount',
+          type: FieldType.VALUE,
+          key: uuid(),
+        },
+        {
+          name: 'order_details',
+          type: FieldType.ARRAY,
+          key: uuid(),
+          children: [
+            {
+              name: 'product_id',
+              type: FieldType.VALUE,
+              key: uuid(),
+            },
+            {
+              name: 'product_name',
+              type: FieldType.VALUE,
+              key: uuid(),
+            },
+          ],
+        },
+        {
+          name: 'meta',
+          type: FieldType.OBJECT,
+          key: uuid(),
+          children: [
+            {
+              name: 'created_by',
+              type: FieldType.VALUE,
+              key: uuid(),
+            },
+            {
+              name: 'created_at',
+              type: FieldType.VALUE,
+              key: uuid(),
+            },
+          ],
         },
       ],
     },
@@ -119,6 +169,10 @@ const useMocker = (): IUseMocker => {
   const { fieldTree, setFieldTree } = useMockerContext()
 
   const fieldMap = field2Map(fieldTree, undefined)
+
+  useEffect(() => {
+    logger.log('useEffect[fieldTree]', fieldTree)
+  }, [fieldTree])
 
   const onUpdateField = (field: IField) => {
     logger.log('onUpdateField', field)

@@ -3,28 +3,32 @@ import { Content, Header } from 'antd/es/layout/layout'
 import MockerForm from './MockerForm'
 import DataViewer from './DataViewer'
 
-const layoutStyle: React.CSSProperties = {
+const rootLayout: React.CSSProperties = {
   height: '100vh',
+}
+
+const layoutStyle: React.CSSProperties = {
   flexDirection: 'row',
 }
 
 const contentStyle: React.CSSProperties = {
   width: '45%',
   overflow: 'auto',
-  minHeight: '100vh',
   backgroundColor: 'white',
 }
 
 const NolandLayout = () => {
   return (
-    <Layout style={layoutStyle}>
-      <Content style={contentStyle}>
-        <DataViewer />
-      </Content>
-      <Content style={contentStyle}>
-        <Header />
-        <MockerForm />
-      </Content>
+    <Layout style={rootLayout}>
+      <Header />
+      <Layout style={layoutStyle}>
+        <Content style={contentStyle}>
+          <DataViewer />
+        </Content>
+        <Content style={contentStyle}>
+          <MockerForm />
+        </Content>
+      </Layout>
     </Layout>
   )
 }
