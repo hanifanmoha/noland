@@ -36,7 +36,7 @@ const traverseValue = (current: IField): any => {
   if (current.type === FieldType.ARRAY) {
     const val = []
     const minLength = 1
-    const maxLength = 3
+    const maxLength = 5
     const len = Math.floor(Math.random() * (maxLength - minLength) + minLength)
     for (let i = 0; i < len; i++) {
       let tmpVal: any = {}
