@@ -29,15 +29,19 @@ const getMockedValue = (config: IFieldConfig) => {
       return chance.email()
     case ValueType['Time - Date']:
       return new Date().toDateString()
+    default:
+      return `<default value>`
   }
 }
 
 const traverseValue = (current: IField): any => {
   if (current.type === FieldType.ARRAY) {
     const val = []
-    const minLength = 1
-    const maxLength = 5
-    const len = Math.floor(Math.random() * (maxLength - minLength) + minLength)
+    const minLength = current.config?.minLength ?? 1
+    const maxLength = current.config?.maxLength ?? 5
+    const len = Math.floor(
+      Math.random() * (maxLength - minLength + 1) + minLength
+    )
     for (let i = 0; i < len; i++) {
       let tmpVal: any = {}
       for (let child of current.children ?? []) {

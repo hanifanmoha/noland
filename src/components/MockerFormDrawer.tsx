@@ -1,7 +1,16 @@
 import { IField } from '@/interfaces/interfaces'
 import { FieldType, ValueType } from '@/utils/enums'
 import debugLogger from '@/utils/log'
-import { Button, Drawer, Form, FormProps, Input, Select, Space } from 'antd'
+import {
+  Button,
+  Drawer,
+  Form,
+  FormProps,
+  Input,
+  InputNumber,
+  Select,
+  Space,
+} from 'antd'
 import { uuid } from 'uuidv4'
 
 interface IMockerFormDrawerProps {
@@ -16,13 +25,18 @@ interface IFormValues {
   name: string
   type: FieldType
   valueType: ValueType
+  minLength: number
+  maxLength: number
 }
 
 const parseInitialValue = (field: IField): IFormValues => {
+  console.log('parseInitialValue', field)
   return {
     name: field.name,
     type: field.type,
     valueType: field?.config?.valueType ?? ValueType['Text - Word'],
+    minLength: field?.config?.minLength ?? 1,
+    maxLength: field.config?.maxLength ?? 5,
   }
 }
 
@@ -33,7 +47,7 @@ const MockerFormDrawer = ({
   onSave,
   onClose,
 }: IMockerFormDrawerProps) => {
-  const logger = debugLogger('MockerFormDrawer', false)
+  const logger = debugLogger('MockerFormDrawer', true)
 
   const [form] = Form.useForm()
   const fieldTypeValue = Form.useWatch('type', form)
@@ -47,6 +61,8 @@ const MockerFormDrawer = ({
       type: values.type,
       config: {
         valueType: values.valueType,
+        minLength: values.minLength,
+        maxLength: values.maxLength,
       },
     }
 
@@ -80,6 +96,28 @@ const MockerFormDrawer = ({
               }))}
             />
           </Form.Item>
+        </>
+      )
+    }
+    if (fieldTypeValue === FieldType.ARRAY) {
+      return (
+        <>
+          <Space direction='horizontal'>
+            <Form.Item
+              label='Minimum Length'
+              name='minLength'
+              rules={[{ required: fieldTypeValue === FieldType.ARRAY }]}
+            >
+              <InputNumber />
+            </Form.Item>
+            <Form.Item
+              label='Maxiumum Length'
+              name='maxLength'
+              rules={[{ required: fieldTypeValue === FieldType.ARRAY }]}
+            >
+              <InputNumber />
+            </Form.Item>
+          </Space>
         </>
       )
     }

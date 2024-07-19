@@ -133,22 +133,23 @@ const field2Map = (
 }
 
 const traverseUpdate = (current: IField, updated: IField): IField => {
-  const res: IField = { ...current }
-
-  res.children = res.children?.map((child) => traverseUpdate(child, updated))
+  let children: IField[] | undefined
 
   if (current.key !== updated.key) {
-    return res
+    return {
+      ...current,
+      children: current.children?.map((child) =>
+        traverseUpdate(child, updated)
+      ),
+    }
+  } else {
+    return {
+      ...updated,
+      children: current.children?.map((child) =>
+        traverseUpdate(child, updated)
+      ),
+    }
   }
-
-  res.name = updated.name
-  res.type = updated.type
-
-  if (![FieldType.ARRAY, FieldType.OBJECT].includes(res.type)) {
-    res.children = []
-  }
-
-  return res
 }
 
 const traverseInsert = (

@@ -10,5 +10,7 @@ export interface IField {
 }
 
 export interface IFieldConfig {
-  valueType: ValueType
+  valueType?: ValueType
+  minLength?: number
+  maxLength?: number
 }
