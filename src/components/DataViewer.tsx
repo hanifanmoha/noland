@@ -3,9 +3,13 @@
 import useMocker from '@/hooks/useMocker'
 import debugLogger from '@/utils/log'
 import { encodeFieldTree } from '@/utils/mock'
-import { CopyOutlined, GlobalOutlined, SyncOutlined } from '@ant-design/icons'
+import {
+  CopyOutlined,
+  GlobalOutlined,
+  RocketOutlined,
+  SyncOutlined,
+} from '@ant-design/icons'
 import { FloatButton, message } from 'antd'
-import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { JSONTree } from 'react-json-tree'
 import { uuid } from 'uuidv4'
@@ -92,14 +96,14 @@ const DataViewer = () => {
       <JSONTree data={jsonData} shouldExpandNodeInitially={() => true} />
       <FloatButton.Group shape='square' style={{ left: 24 }}>
         <FloatButton
-          icon={<CopyOutlined />}
-          tooltip='Copy URL'
-          onClick={handleCopy}
+          icon={<RocketOutlined rotate={45} />}
+          tooltip='Open API in New Page'
+          onClick={handleOpenNewTab}
         />
         <FloatButton
-          icon={<GlobalOutlined />}
-          tooltip='Open in New Page'
-          onClick={handleOpenNewTab}
+          icon={<CopyOutlined />}
+          tooltip='Copy API URL'
+          onClick={handleCopy}
         />
         <FloatButton
           icon={<SyncOutlined />}
