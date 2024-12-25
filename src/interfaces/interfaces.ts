@@ -1,5 +1,4 @@
 import { FieldType } from '@/utils/enums'
-import { MOCK_OPTIONS_MAP } from '@/utils/mock'
 
 export interface IAPIMock {
   title: string
@@ -16,7 +15,7 @@ export interface IField {
 }
 
 export interface IFieldConfig {
-  valueType?: keyof typeof MOCK_OPTIONS_MAP
+  valueType?: string
   minLength?: number
   maxLength?: number
   staticValue?: IFieldConfigStaticValue

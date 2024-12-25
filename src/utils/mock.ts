@@ -1,10 +1,7 @@
 import { IField, IFieldConfig } from '@/interfaces/interfaces'
 import { FieldType } from './enums'
 import { uuid } from 'uuidv4'
-import { Chance } from 'chance'
 import { CHANCE_MOCK_OPTIONS } from './chancejs'
-
-const chance = new Chance()
 
 export interface IMockOptions {
   key: string,
@@ -40,12 +37,7 @@ export const MOCK_OPTIONS: IMockOptions[] = [
     fn: () => null
   },
   ...CHANCE_MOCK_OPTIONS
-]
-
-export const MOCK_OPTIONS_MAP = MOCK_OPTIONS.reduce((acc, curr) => {
-  acc[curr.name] = curr.key
-  return acc
-}, {} as Record<string, string>)
+] as const
 
 export const encodeFieldTree = (rootField: IField): string => {
   const str = JSON.stringify(rootField)

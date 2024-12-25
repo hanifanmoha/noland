@@ -92,7 +92,7 @@ export const CHANCE_MOCK_OPTIONS: IMockOptions[] = [
     { key: 'chance.second', name: 'Time - Second', lib: 'chance', fn: () => chance.second() },
     { key: 'chance.timestamp', name: 'Time - Timestamp', lib: 'chance', fn: () => chance.timestamp() },
     { key: 'chance.timezone', name: 'Time - Timezone', lib: 'chance', fn: () => chance.timezone() },
-    { key: 'chance.weekday', name: 'Time - Weekday', lib: 'chance', fn: () => chance.weekday() },
+    { key: 'chance.weekday', name: 'Time - Weekday', lib: 'chance', fn: () => chance.weekday({}) },
     { key: 'chance.year', name: 'Time - Year', lib: 'chance', fn: () => chance.year() },
 
     // Finance
