@@ -1,8 +1,8 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Button, Card, Popover, Space, Tree, Typography } from 'antd'
-import type { TreeDataNode } from 'antd'
+import { Button, Card, Popover, Radio, Row, Space, Tree, Typography } from 'antd'
+import type { RadioChangeEvent, TreeDataNode } from 'antd'
 import {
   BorderlessTableOutlined,
   FolderOutlined,
@@ -10,6 +10,8 @@ import {
   EditOutlined,
   DeleteOutlined,
   PlusOutlined,
+  ArrowUpOutlined,
+  ArrowDownOutlined,
 } from '@ant-design/icons'
 
 import styles from './MockerForm.module.css'
@@ -52,7 +54,7 @@ const MockerForm = () => {
   const [formDrawer, setFormDrawer] = useState<IFormDrawerState>({
     isOpen: false,
   })
-  const { fieldTree, fieldMap, onUpdateField, onInsertField, onRemoveField } =
+  const { fieldTree, fieldMap, onUpdateField, onInsertField, onRemoveField, onMoveField } =
     useMocker()
   const treeData = field2TreeData(fieldTree)
 
@@ -61,15 +63,19 @@ const MockerForm = () => {
   }
 
   const onParamAction =
-    (e: any) => (action: 'add' | 'remove' | 'edit', param: TreeDataNode) => {
+    (e: any) => (action: 'add' | 'remove' | 'edit' | 'move' | 'moveup' | 'movedown', param: TreeDataNode) => {
       e.stopPropagation()
       const field = fieldMap[param.key as string]
       if (action === 'remove') {
         onRemoveField(field?.key)
       } else if (action === 'add') {
         setFormDrawer({ isOpen: true, mode: 'create', field: field })
-      } else {
+      } else if (action === 'edit') {
         setFormDrawer({ isOpen: true, mode: 'edit', field: field })
+      } else if (action === 'moveup') {
+        onMoveField(field?.key, true)
+      } else if (action === 'movedown') {
+        onMoveField(field?.key, false)
       }
     }
 
@@ -109,14 +115,26 @@ const MockerForm = () => {
           </Button>
         )}
         {props.title !== ROOT_NAME && (
-          <Button
-            danger
-            icon={<DeleteOutlined />}
-            block
-            onClick={(e) => onParamAction(e)('remove', props)}
-          >
-            Remove
-          </Button>
+          <>
+            <Button
+              danger
+              icon={<DeleteOutlined />}
+              block
+              onClick={(e) => onParamAction(e)('remove', props)}
+            >
+              Remove
+            </Button>
+            <Button
+              block
+              icon={<ArrowUpOutlined />}
+              onClick={(e) => onParamAction(e)('moveup', props)}
+            />
+            <Button
+              block
+              icon={<ArrowDownOutlined />}
+              onClick={(e) => onParamAction(e)('movedown', props)}
+            />
+          </>
         )}
       </Space>
     )

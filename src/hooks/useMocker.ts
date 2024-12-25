@@ -28,7 +28,6 @@ const field2Map = (
 }
 
 const traverseUpdate = (current: IField, updated: IField): IField => {
-  let children: IField[] | undefined
 
   if (current.key !== updated.key) {
     return {
@@ -76,6 +75,27 @@ const traverseRemove = (current: IField, removedKey: string): IField => {
   return res
 }
 
+const traverseMove = (current: IField, movedKey: string, isMoveUp: boolean) => {
+  const res: IField = { ...current }
+
+  const childIndex = current.children?.findIndex((child) => child.key === movedKey) || 0
+
+  if (current.children && childIndex >= 0) {
+    const newIndex = isMoveUp ? childIndex - 1 : childIndex + 1
+    if (newIndex >= 0 && newIndex < current.children.length) {
+      const tmp = current.children[childIndex]
+      current.children[childIndex] = current.children[newIndex]
+      current.children[newIndex] = tmp
+    }
+  }
+
+  res.children = res.children?.map((child) =>
+    traverseMove(child, movedKey, isMoveUp)
+  )
+
+  return res
+}
+
 type IFieldWithParent = IField & { parent?: IField }
 
 interface IUseMocker {
@@ -84,6 +104,7 @@ interface IUseMocker {
   onUpdateField: (field: IField) => void
   onInsertField: (field: IField, parentKey: string) => void
   onRemoveField: (fieldKey: string) => void
+  onMoveField: (fieldKey: string, isMoveUp: boolean) => void
 }
 
 const useMocker = (): IUseMocker => {
@@ -115,7 +136,14 @@ const useMocker = (): IUseMocker => {
     setFieldTree(updatedRoot)
   }
 
-  return { fieldTree, fieldMap, onUpdateField, onInsertField, onRemoveField }
+  const onMoveField = (fieldKey: string, isMoveUp: boolean) => {
+    logger.log('onMoveField', fieldKey, isMoveUp)
+    const updatedRoot = traverseMove(fieldTree, fieldKey, isMoveUp)
+    setFieldTree(updatedRoot)
+  }
+
+
+  return { fieldTree, fieldMap, onUpdateField, onInsertField, onRemoveField, onMoveField }
 }
 
 export default useMocker
