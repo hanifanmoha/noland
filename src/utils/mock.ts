@@ -2,6 +2,7 @@ import { IField, IFieldConfig } from '@/interfaces/interfaces'
 import { FieldType } from './enums'
 import { uuid } from 'uuidv4'
 import { CHANCE_MOCK_OPTIONS } from './chancejs'
+import { FAKERJS_MOCK_OPTIONS } from './fakerjs'
 
 export interface IMockOptions {
   key: string,
@@ -36,7 +37,8 @@ export const MOCK_OPTIONS: IMockOptions[] = [
     name: 'Static - Null',
     fn: () => null
   },
-  ...CHANCE_MOCK_OPTIONS
+  ...CHANCE_MOCK_OPTIONS,
+  ...FAKERJS_MOCK_OPTIONS
 ] as const
 
 export const encodeFieldTree = (rootField: IField): string => {

@@ -95,21 +95,30 @@ const MockerFormDrawer = ({
   }
 
   function getValueTypeOptions(): any[] {
-    return [{
-      label: <span>General</span>,
-      title: 'default',
-      options: MOCK_OPTIONS.filter(f => !f.lib).map((f) => ({
-        label: f.name,
-        value: f.key,
-      }))
-    }, {
-      label: <span>Chance JS</span>,
-      title: 'chancejs',
-      options: MOCK_OPTIONS.filter(f => f.lib === 'chance').map((f) => ({
-        label: f.name,
-        value: f.key,
-      }))
-    }]
+    return [
+      {
+        label: <span>General</span>,
+        title: 'default',
+        options: MOCK_OPTIONS.filter(f => !f.lib).map((f) => ({
+          label: f.name,
+          value: f.key,
+        }))
+      }, {
+        label: <span>Chance JS</span>,
+        title: 'chancejs',
+        options: MOCK_OPTIONS.filter(f => f.lib === 'chance').map((f) => ({
+          label: f.name,
+          value: f.key,
+        }))
+      }, {
+        label: <span>Faker JS</span>,
+        title: 'fakerjs',
+        options: MOCK_OPTIONS.filter(f => f.lib === 'fakerjs').map((f) => ({
+          label: f.name,
+          value: f.key,
+        }))
+      }
+    ]
   }
 
   const renderFormConfig = () => {

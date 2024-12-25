@@ -92,12 +92,32 @@ export const exampleOrderList: IField = {
                         valueType: 'chance.email',
                     },
                 },
+                {
+                    key: uuid(),
+                    name: 'customer_address',
+                    type: FieldType.VALUE,
+                    config: {
+                        valueType: 'chance.address',
+                    },
+                },
+                {
+                    key: uuid(),
+                    name: 'order_location',
+                    type: FieldType.VALUE,
+                    config: {
+                        valueType: 'chance.coordinates',
+                    },
+                },
             ],
         },
         {
             key: uuid(),
             name: 'order_details',
             type: FieldType.ARRAY,
+            config: {
+                minLength: 1,
+                maxLength: 3,
+            },
             children: [
                 {
                     key: uuid(),
@@ -112,7 +132,23 @@ export const exampleOrderList: IField = {
                     name: 'product_name',
                     type: FieldType.VALUE,
                     config: {
-                        valueType: 'chance.word',
+                        valueType: 'fakerjs.commerce.product',
+                    },
+                },
+                {
+                    key: uuid(),
+                    name: 'product_color',
+                    type: FieldType.VALUE,
+                    config: {
+                        valueType: 'fakerjs.color.human',
+                    },
+                },
+                {
+                    key: uuid(),
+                    name: 'vendor',
+                    type: FieldType.VALUE,
+                    config: {
+                        valueType: 'fakerjs.company.name',
                     },
                 },
             ],

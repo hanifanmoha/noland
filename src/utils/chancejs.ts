@@ -12,7 +12,6 @@ export const CHANCE_MOCK_OPTIONS: IMockOptions[] = [
     { key: 'chance.integer', name: 'Basics - Integer', lib: 'chance', fn: () => chance.integer() },
     { key: 'chance.letter', name: 'Basics - Letter', lib: 'chance', fn: () => chance.letter() },
     { key: 'chance.natural', name: 'Basics - Natural', lib: 'chance', fn: () => chance.natural() },
-    { key: 'chance.prime', name: 'Basics - Prime', lib: 'chance', fn: () => chance.prime() },
     { key: 'chance.string', name: 'Basics - String', lib: 'chance', fn: () => chance.string() },
 
     // Text
