@@ -2,6 +2,7 @@
 
 import { initialFieldTree } from '@/hooks/useMocker'
 import { IField } from '@/interfaces/interfaces'
+import { exampleOrderList } from '@/utils/initialvalue'
 import { createContext, ReactNode, useContext, useState } from 'react'
 
 interface IMockerContext {
@@ -14,7 +15,7 @@ export const MockerContext = createContext<IMockerContext | undefined>(
 )
 
 const MockerProvider = ({ children }: { children: ReactNode }) => {
-  const [fieldTree, setFieldTree] = useState(initialFieldTree)
+  const [fieldTree, setFieldTree] = useState(exampleOrderList)
 
   return (
     <MockerContext.Provider value={{ fieldTree, setFieldTree }}>

@@ -1,3 +1,6 @@
 - tree open form
 - add item
 - move
+- sync with params
+- local storage
+- add more types
