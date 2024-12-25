@@ -1,6 +1,11 @@
 import { FieldType } from '@/utils/enums'
 import { MOCK_OPTIONS_MAP } from '@/utils/mock'
 
+export interface IAPIMock {
+  title: string
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'OPTIONS' | 'HEAD'
+  field: IField
+}
 export interface IField {
   isRoot?: boolean
   name: string
