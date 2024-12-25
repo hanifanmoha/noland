@@ -110,15 +110,12 @@ export const CHANCE_MOCK_OPTIONS: IMockOptions[] = [
     { key: 'chance.pick', name: 'Helpers - Pick', lib: 'chance', fn: () => chance.pick(['a', 'b', 'c']) },
     { key: 'chance.pickone', name: 'Helpers - Pick One', lib: 'chance', fn: () => chance.pickone(['a', 'b', 'c']) },
     { key: 'chance.pickset', name: 'Helpers - Pick Set', lib: 'chance', fn: () => chance.pickset(['a', 'b', 'c'], 2) },
-    { key: 'chance.set', name: 'Helpers - Set', lib: 'chance', fn: () => chance.set({ seed: 123 }) },
     { key: 'chance.shuffle', name: 'Helpers - Shuffle', lib: 'chance', fn: () => chance.shuffle(['a', 'b', 'c']) },
 
     // Miscellaneous
     { key: 'chance.coin', name: 'Miscellaneous - Coin Flip', lib: 'chance', fn: () => chance.coin() },
-    { key: 'chance.dice', name: 'Miscellaneous - Dice', lib: 'chance', fn: () => chance.dice(6) },
     { key: 'chance.guid', name: 'Miscellaneous - GUID', lib: 'chance', fn: () => chance.guid() },
     { key: 'chance.hash', name: 'Miscellaneous - Hash', lib: 'chance', fn: () => chance.hash() },
-    { key: 'chance.hidden', name: 'Miscellaneous - Hidden', lib: 'chance', fn: () => chance.hidden() },
     { key: 'chance.n', name: 'Miscellaneous - N', lib: 'chance', fn: () => chance.n(chance.integer, 5) },
     { key: 'chance.normal', name: 'Miscellaneous - Normal', lib: 'chance', fn: () => chance.normal() },
     { key: 'chance.radio', name: 'Miscellaneous - Radio', lib: 'chance', fn: () => chance.radio() },
