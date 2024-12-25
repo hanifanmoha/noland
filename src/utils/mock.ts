@@ -2,10 +2,11 @@ import { IField, IFieldConfig } from '@/interfaces/interfaces'
 import { FieldType } from './enums'
 import { uuid } from 'uuidv4'
 import { Chance } from 'chance'
+import { CHANCE_MOCK_OPTIONS } from './chancejs'
 
 const chance = new Chance()
 
-interface IMockOptions {
+export interface IMockOptions {
   key: string,
   name: string,
   lib?: string,
@@ -38,36 +39,7 @@ export const MOCK_OPTIONS: IMockOptions[] = [
     name: 'Static - Null',
     fn: () => null
   },
-  {
-    key: 'person.name',
-    name: 'Person - Name',
-    lib: 'chance',
-    fn: () => chance.name()
-  },
-  {
-    key: 'text.sentence',
-    name: 'Text - Sentence',
-    lib: 'chance',
-    fn: () => chance.sentence()
-  },
-  {
-    key: 'text.word',
-    name: 'Text - Word',
-    lib: 'chance',
-    fn: () => chance.word()
-  },
-  {
-    key: 'web.email',
-    name: 'Web - Email',
-    lib: 'chance',
-    fn: () => chance.email()
-  },
-  {
-    key: 'time.date',
-    name: 'Time - Date',
-    lib: 'chance',
-    fn: () => new Date().toDateString()
-  }
+  ...CHANCE_MOCK_OPTIONS
 ]
 
 export const MOCK_OPTIONS_MAP = MOCK_OPTIONS.reduce((acc, curr) => {

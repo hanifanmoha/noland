@@ -61,9 +61,6 @@ const MockerFormDrawer = ({
   const fieldTypeValue = Form.useWatch('type', form)
   const fieldValueTypeValue = Form.useWatch('valueType', form)
 
-  logger.log('fieldTypeValue', fieldTypeValue)
-  logger.log('fieldValueTypeValue', fieldValueTypeValue)
-
   const onFinish: FormProps<IFormValues>['onFinish'] = (values) => {
     logger.log('onFinish', values)
 
@@ -94,7 +91,25 @@ const MockerFormDrawer = ({
   const onFinishFailed: FormProps<IFormValues>['onFinishFailed'] = (
     errorInfo
   ) => {
-    logger.log('MockerFormDrawer.onFinishFailed', errorInfo)
+    logger.log('onFinishFailed', errorInfo)
+  }
+
+  function getValueTypeOptions(): any[] {
+    return [{
+      label: <span>General</span>,
+      title: 'default',
+      options: MOCK_OPTIONS.filter(f => !f.lib).map((f) => ({
+        label: f.name,
+        value: f.key,
+      }))
+    }, {
+      label: <span>Chance JS</span>,
+      title: 'chancejs',
+      options: MOCK_OPTIONS.filter(f => f.lib === 'chance').map((f) => ({
+        label: f.name,
+        value: f.key,
+      }))
+    }]
   }
 
   const renderFormConfig = () => {
@@ -107,10 +122,12 @@ const MockerFormDrawer = ({
             rules={[{ required: fieldTypeValue === FieldType.VALUE }]}
           >
             <Select
-              options={MOCK_OPTIONS.map((f) => ({
-                label: f.name,
-                value: f.key,
-              }))}
+              showSearch
+              options={getValueTypeOptions()}
+              filterOption={(input, option) => {
+                if (option.options || option.title) return false
+                return (option.label ?? '').toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }}
             />
           </Form.Item>
           <Divider />

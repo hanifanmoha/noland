@@ -94,7 +94,7 @@ const DataViewer = () => {
       }}
     >
       <JSONTree data={jsonData} shouldExpandNodeInitially={() => true} />
-      <FloatButton.Group shape='square' style={{ left: 24 }}>
+      <FloatButton.Group shape='square' style={{ left: 24, right: 'auto' }}>
         <FloatButton
           icon={<RocketOutlined rotate={45} />}
           tooltip='Open API in New Page'
