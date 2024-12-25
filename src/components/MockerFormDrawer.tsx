@@ -26,7 +26,7 @@ interface IMockerFormDrawerProps {
 interface IFormValues {
   name: string
   type: FieldType
-  valueType: typeof MOCK_OPTIONS_MAP
+  valueType: keyof typeof MOCK_OPTIONS_MAP
   minLength: number
   maxLength: number
   staticValueNumber: number
