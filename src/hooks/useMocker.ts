@@ -5,116 +5,11 @@ import {
   useEffect,
   useState,
 } from 'react'
-import { uuid } from 'uuidv4'
 
 import { IField } from '@/interfaces/interfaces'
-import { FieldType, ValueType } from '@/utils/enums'
+import { FieldType } from '@/utils/enums'
 import debugLogger from '@/utils/log'
-import { MockerContext, useMockerContext } from '@/contexts/MockerContext'
-
-export const ROOT_NAME = ':root:'
-
-export const initialFieldTree: IField = {
-  isRoot: true,
-  name: ROOT_NAME,
-  type: FieldType.OBJECT,
-  key: uuid(),
-  children: [
-    {
-      key: uuid(),
-      name: 'customer_id',
-      type: FieldType.VALUE,
-      config: {
-        valueType: ValueType['ID - UUIDV4'],
-      },
-    },
-    {
-      key: uuid(),
-      name: 'customer_name',
-      type: FieldType.VALUE,
-      config: {
-        valueType: ValueType['Person - Name'],
-      },
-    },
-    {
-      key: uuid(),
-      name: 'customer_email',
-      type: FieldType.VALUE,
-      config: {
-        valueType: ValueType['Web - Email'],
-      },
-    },
-    {
-      key: uuid(),
-      name: 'orders',
-      type: FieldType.ARRAY,
-      children: [
-        {
-          key: uuid(),
-          name: 'order_id',
-          type: FieldType.VALUE,
-          config: {
-            valueType: ValueType['ID - UUIDV4'],
-          },
-        },
-        {
-          key: uuid(),
-          name: 'order_date',
-          type: FieldType.VALUE,
-          config: {
-            valueType: ValueType['Time - Date'],
-          },
-        },
-        {
-          key: uuid(),
-          name: 'order_details',
-          type: FieldType.ARRAY,
-          children: [
-            {
-              key: uuid(),
-              name: 'product_id',
-              type: FieldType.VALUE,
-              config: {
-                valueType: ValueType['ID - UUIDV4'],
-              },
-            },
-            {
-              key: uuid(),
-              name: 'product_name',
-              type: FieldType.VALUE,
-              config: {
-                valueType: ValueType['Text - Word'],
-              },
-            },
-          ],
-        },
-        {
-          key: uuid(),
-          name: 'meta',
-          type: FieldType.OBJECT,
-          children: [
-            {
-              key: uuid(),
-              name: 'created_by',
-              type: FieldType.VALUE,
-              config: {
-                valueType: ValueType['Web - Email'],
-              },
-            },
-            {
-              key: uuid(),
-              name: 'created_at',
-              type: FieldType.VALUE,
-              config: {
-                valueType: ValueType['Time - Date'],
-              },
-            },
-          ],
-        },
-      ],
-    },
-  ],
-}
+import { useMockerContext } from '@/contexts/MockerContext'
 
 const field2Map = (
   field: IField,

@@ -2,6 +2,7 @@ import { Layout } from 'antd'
 import { Content, Header } from 'antd/es/layout/layout'
 import MockerForm from './MockerForm'
 import DataViewer from './DataViewer'
+import Title from 'antd/es/typography/Title'
 
 const rootLayout: React.CSSProperties = {
   height: '100vh',
@@ -17,10 +18,18 @@ const contentStyle: React.CSSProperties = {
   backgroundColor: 'white',
 }
 
+const titleStyle: React.CSSProperties = {
+  color: 'white',
+  textTransform: 'uppercase',
+  textAlign: 'center',
+}
+
 const NolandLayout = () => {
   return (
     <Layout style={rootLayout}>
-      <Header />
+      <Header>
+        <Title style={titleStyle} level={4}>The Golden City Does Exist</Title>
+      </Header>
       <Layout style={layoutStyle}>
         <Content style={contentStyle}>
           <DataViewer />

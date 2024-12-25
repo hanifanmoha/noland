@@ -2,12 +2,11 @@ import { uuid } from 'uuidv4'
 
 import { IField } from '@/interfaces/interfaces'
 import { FieldType, ValueType } from '@/utils/enums'
-
-import { ROOT_NAME } from '@/hooks/useMocker'
+import { FIELD_ROOT_NAME } from './consts'
 
 export const exampleUserOrders: IField = {
     isRoot: true,
-    name: ROOT_NAME,
+    name: FIELD_ROOT_NAME,
     type: FieldType.OBJECT,
     key: uuid(),
     children: [
@@ -109,7 +108,7 @@ export const exampleUserOrders: IField = {
 
 export const exampleOrderList: IField = {
     isRoot: true,
-    name: ROOT_NAME,
+    name: FIELD_ROOT_NAME,
     type: FieldType.ARRAY,
     key: uuid(),
     config: {
