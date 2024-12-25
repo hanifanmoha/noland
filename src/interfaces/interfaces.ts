@@ -13,4 +13,11 @@ export interface IFieldConfig {
   valueType?: ValueType
   minLength?: number
   maxLength?: number
+  staticValue?: IFieldConfigStaticValue
+}
+
+export interface IFieldConfigStaticValue {
+  number?: number
+  string?: string
+  boolean?: boolean
 }

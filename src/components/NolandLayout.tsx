@@ -21,7 +21,7 @@ const contentStyle: React.CSSProperties = {
 const titleStyle: React.CSSProperties = {
   color: 'white',
   textTransform: 'uppercase',
-  textAlign: 'center',
+  // textAlign: 'center',
 }
 
 const NolandLayout = () => {

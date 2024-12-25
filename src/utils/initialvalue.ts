@@ -134,6 +134,39 @@ export const exampleOrderList: IField = {
         },
         {
             key: uuid(),
+            name: 'tax_percentage',
+            type: FieldType.VALUE,
+            config: {
+                valueType: ValueType['Static - Number'],
+                staticValue: {
+                    number: 0.01,
+                },
+            },
+        },
+        {
+            key: uuid(),
+            name: 'company_code',
+            type: FieldType.VALUE,
+            config: {
+                valueType: ValueType['Static - String'],
+                staticValue: {
+                    string: 'CXT',
+                },
+            },
+        },
+        {
+            key: uuid(),
+            name: 'is_valid',
+            type: FieldType.VALUE,
+            config: {
+                valueType: ValueType['Static - Boolean'],
+                staticValue: {
+                    boolean: true,
+                },
+            },
+        },
+        {
+            key: uuid(),
             name: 'customer',
             type: FieldType.OBJECT,
             children: [

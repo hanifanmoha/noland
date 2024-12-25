@@ -3,6 +3,7 @@ import { FieldType, ValueType } from '@/utils/enums'
 import debugLogger from '@/utils/log'
 import {
   Button,
+  Divider,
   Drawer,
   Form,
   FormProps,
@@ -27,6 +28,9 @@ interface IFormValues {
   valueType: ValueType
   minLength: number
   maxLength: number
+  staticValueNumber: number
+  staticValueString: string
+  staticValueBoolean: boolean
 }
 
 const parseInitialValue = (field: IField): IFormValues => {
@@ -37,6 +41,9 @@ const parseInitialValue = (field: IField): IFormValues => {
     valueType: field?.config?.valueType ?? ValueType['Text - Word'],
     minLength: field?.config?.minLength ?? 1,
     maxLength: field.config?.maxLength ?? 5,
+    staticValueNumber: field?.config?.staticValue?.number ?? 0,
+    staticValueString: field?.config?.staticValue?.string ?? '',
+    staticValueBoolean: field?.config?.staticValue?.boolean ?? false,
   }
 }
 
@@ -51,6 +58,10 @@ const MockerFormDrawer = ({
 
   const [form] = Form.useForm()
   const fieldTypeValue = Form.useWatch('type', form)
+  const fieldValueTypeValue = Form.useWatch('valueType', form)
+
+  logger.log('fieldTypeValue', fieldTypeValue)
+  logger.log('fieldValueTypeValue', fieldValueTypeValue)
 
   const onFinish: FormProps<IFormValues>['onFinish'] = (values) => {
     logger.log('onFinish', values)
@@ -63,6 +74,11 @@ const MockerFormDrawer = ({
         valueType: values.valueType,
         minLength: values.minLength,
         maxLength: values.maxLength,
+        staticValue: {
+          number: values.staticValueNumber,
+          string: values.staticValueString,
+          boolean: values.staticValueBoolean,
+        },
       },
     }
 
@@ -96,6 +112,8 @@ const MockerFormDrawer = ({
               }))}
             />
           </Form.Item>
+          <Divider />
+          {renderValueConfig()}
         </>
       )
     }
@@ -119,6 +137,45 @@ const MockerFormDrawer = ({
             </Form.Item>
           </Space>
         </>
+      )
+    }
+  }
+
+  function renderValueConfig() {
+    if (fieldValueTypeValue === ValueType['Static - Number']) {
+      return (
+        <Form.Item
+          label='Value'
+          name='staticValueNumber'
+          rules={[{ required: true }]}
+        >
+          <InputNumber />
+        </Form.Item>
+      )
+    } else if (fieldValueTypeValue === ValueType['Static - String']) {
+      return (
+        <Form.Item
+          label='Value'
+          name='staticValueString'
+          rules={[{ required: true }]}
+        >
+          <Input />
+        </Form.Item>
+      )
+    } else if (fieldValueTypeValue === ValueType['Static - Boolean']) {
+      return (
+        <Form.Item
+          label='Value'
+          name='staticValueBoolean'
+          rules={[{ required: true }]}
+        >
+          <Select
+            options={[
+              { label: 'True', value: true },
+              { label: 'False', value: false },
+            ]}
+          />
+        </Form.Item>
       )
     }
   }

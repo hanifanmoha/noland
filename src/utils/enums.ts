@@ -6,6 +6,10 @@ export enum FieldType {
 
 export enum ValueType {
   'ID - UUIDV4' = 'id.uuidv4',
+  'Static - Number' = 'static.number',
+  'Static - String' = 'static.string',
+  'Static - Boolean' = 'static.boolean',
+  'Static - Null' = 'static.null',
   'Person - Name' = 'person.name',
   'Web - Email' = 'web.email',
   'Text - Word' = 'text.word',

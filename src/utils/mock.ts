@@ -19,6 +19,14 @@ const getMockedValue = (config: IFieldConfig) => {
   switch (config.valueType) {
     case ValueType['ID - UUIDV4']:
       return uuid()
+    case ValueType['Static - Number']:
+      return config.staticValue?.number ?? 0
+    case ValueType['Static - String']:
+      return config.staticValue?.string ?? ''
+    case ValueType['Static - Boolean']:
+      return config.staticValue?.boolean ?? false
+    case ValueType['Static - Null']:
+      return null
     case ValueType['Person - Name']:
       return chance.name()
     case ValueType['Text - Sentence']:
