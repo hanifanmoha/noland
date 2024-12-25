@@ -1,8 +1,9 @@
 import { uuid } from 'uuidv4'
 
 import { IField } from '@/interfaces/interfaces'
-import { FieldType, ValueType } from '@/utils/enums'
+import { FieldType } from '@/utils/enums'
 import { FIELD_ROOT_NAME } from './consts'
+import { MOCK_OPTIONS_MAP } from './mock'
 
 export const exampleUserOrders: IField = {
     isRoot: true,
@@ -15,7 +16,7 @@ export const exampleUserOrders: IField = {
             name: 'customer_id',
             type: FieldType.VALUE,
             config: {
-                valueType: ValueType['ID - UUIDV4'],
+                valueType: MOCK_OPTIONS_MAP['ID - UUIDV4'],
             },
         },
         {
@@ -23,7 +24,7 @@ export const exampleUserOrders: IField = {
             name: 'customer_name',
             type: FieldType.VALUE,
             config: {
-                valueType: ValueType['Person - Name'],
+                valueType: MOCK_OPTIONS_MAP['Person - Name'],
             },
         },
         {
@@ -31,7 +32,7 @@ export const exampleUserOrders: IField = {
             name: 'customer_email',
             type: FieldType.VALUE,
             config: {
-                valueType: ValueType['Web - Email'],
+                valueType: MOCK_OPTIONS_MAP['Web - Email'],
             },
         },
         {
@@ -44,7 +45,7 @@ export const exampleUserOrders: IField = {
                     name: 'order_id',
                     type: FieldType.VALUE,
                     config: {
-                        valueType: ValueType['ID - UUIDV4'],
+                        valueType: MOCK_OPTIONS_MAP['ID - UUIDV4'],
                     },
                 },
                 {
@@ -52,7 +53,7 @@ export const exampleUserOrders: IField = {
                     name: 'order_date',
                     type: FieldType.VALUE,
                     config: {
-                        valueType: ValueType['Time - Date'],
+                        valueType: MOCK_OPTIONS_MAP['Time - Date'],
                     },
                 },
                 {
@@ -65,7 +66,7 @@ export const exampleUserOrders: IField = {
                             name: 'product_id',
                             type: FieldType.VALUE,
                             config: {
-                                valueType: ValueType['ID - UUIDV4'],
+                                valueType: MOCK_OPTIONS_MAP['ID - UUIDV4'],
                             },
                         },
                         {
@@ -73,7 +74,7 @@ export const exampleUserOrders: IField = {
                             name: 'product_name',
                             type: FieldType.VALUE,
                             config: {
-                                valueType: ValueType['Text - Word'],
+                                valueType: MOCK_OPTIONS_MAP['Text - Word'],
                             },
                         },
                     ],
@@ -88,7 +89,7 @@ export const exampleUserOrders: IField = {
                             name: 'created_by',
                             type: FieldType.VALUE,
                             config: {
-                                valueType: ValueType['Web - Email'],
+                                valueType: MOCK_OPTIONS_MAP['Web - Email'],
                             },
                         },
                         {
@@ -96,7 +97,7 @@ export const exampleUserOrders: IField = {
                             name: 'created_at',
                             type: FieldType.VALUE,
                             config: {
-                                valueType: ValueType['Time - Date'],
+                                valueType: MOCK_OPTIONS_MAP['Time - Date'],
                             },
                         },
                     ],
@@ -121,7 +122,7 @@ export const exampleOrderList: IField = {
             name: 'order_id',
             type: FieldType.VALUE,
             config: {
-                valueType: ValueType['ID - UUIDV4'],
+                valueType: MOCK_OPTIONS_MAP['ID - UUIDV4'],
             },
         },
         {
@@ -129,7 +130,7 @@ export const exampleOrderList: IField = {
             name: 'order_date',
             type: FieldType.VALUE,
             config: {
-                valueType: ValueType['Time - Date'],
+                valueType: MOCK_OPTIONS_MAP['Time - Date'],
             },
         },
         {
@@ -137,7 +138,7 @@ export const exampleOrderList: IField = {
             name: 'tax_percentage',
             type: FieldType.VALUE,
             config: {
-                valueType: ValueType['Static - Number'],
+                valueType: MOCK_OPTIONS_MAP['Static - Number'],
                 staticValue: {
                     number: 0.01,
                 },
@@ -148,7 +149,7 @@ export const exampleOrderList: IField = {
             name: 'company_code',
             type: FieldType.VALUE,
             config: {
-                valueType: ValueType['Static - String'],
+                valueType: MOCK_OPTIONS_MAP['Static - String'],
                 staticValue: {
                     string: 'CXT',
                 },
@@ -159,7 +160,7 @@ export const exampleOrderList: IField = {
             name: 'is_valid',
             type: FieldType.VALUE,
             config: {
-                valueType: ValueType['Static - Boolean'],
+                valueType: MOCK_OPTIONS_MAP['Static - Boolean'],
                 staticValue: {
                     boolean: true,
                 },
@@ -175,7 +176,7 @@ export const exampleOrderList: IField = {
                     name: 'customer_id',
                     type: FieldType.VALUE,
                     config: {
-                        valueType: ValueType['ID - UUIDV4'],
+                        valueType: MOCK_OPTIONS_MAP['ID - UUIDV4'],
                     },
                 },
                 {
@@ -183,7 +184,7 @@ export const exampleOrderList: IField = {
                     name: 'customer_name',
                     type: FieldType.VALUE,
                     config: {
-                        valueType: ValueType['Person - Name'],
+                        valueType: MOCK_OPTIONS_MAP['Person - Name'],
                     },
                 },
                 {
@@ -191,7 +192,7 @@ export const exampleOrderList: IField = {
                     name: 'customer_email',
                     type: FieldType.VALUE,
                     config: {
-                        valueType: ValueType['Web - Email'],
+                        valueType: MOCK_OPTIONS_MAP['Web - Email'],
                     },
                 },
             ],
@@ -206,7 +207,7 @@ export const exampleOrderList: IField = {
                     name: 'product_id',
                     type: FieldType.VALUE,
                     config: {
-                        valueType: ValueType['ID - UUIDV4'],
+                        valueType: MOCK_OPTIONS_MAP['ID - UUIDV4'],
                     },
                 },
                 {
@@ -214,7 +215,7 @@ export const exampleOrderList: IField = {
                     name: 'product_name',
                     type: FieldType.VALUE,
                     config: {
-                        valueType: ValueType['Text - Word'],
+                        valueType: MOCK_OPTIONS_MAP['Text - Word'],
                     },
                 },
             ],
@@ -229,7 +230,7 @@ export const exampleOrderList: IField = {
                     name: 'created_by',
                     type: FieldType.VALUE,
                     config: {
-                        valueType: ValueType['Web - Email'],
+                        valueType: MOCK_OPTIONS_MAP['Web - Email'],
                     },
                 },
                 {
@@ -237,7 +238,7 @@ export const exampleOrderList: IField = {
                     name: 'created_at',
                     type: FieldType.VALUE,
                     config: {
-                        valueType: ValueType['Time - Date'],
+                        valueType: MOCK_OPTIONS_MAP['Time - Date'],
                     },
                 },
             ],

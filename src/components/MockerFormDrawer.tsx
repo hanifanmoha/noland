@@ -1,6 +1,7 @@
 import { IField } from '@/interfaces/interfaces'
-import { FieldType, ValueType } from '@/utils/enums'
+import { FieldType } from '@/utils/enums'
 import debugLogger from '@/utils/log'
+import { MOCK_OPTIONS, MOCK_OPTIONS_MAP } from '@/utils/mock'
 import {
   Button,
   Divider,
@@ -25,7 +26,7 @@ interface IMockerFormDrawerProps {
 interface IFormValues {
   name: string
   type: FieldType
-  valueType: ValueType
+  valueType: typeof MOCK_OPTIONS_MAP
   minLength: number
   maxLength: number
   staticValueNumber: number
@@ -38,7 +39,7 @@ const parseInitialValue = (field: IField): IFormValues => {
   return {
     name: field.name,
     type: field.type,
-    valueType: field?.config?.valueType ?? ValueType['Text - Word'],
+    valueType: field?.config?.valueType ?? MOCK_OPTIONS_MAP['Text - Word'],
     minLength: field?.config?.minLength ?? 1,
     maxLength: field.config?.maxLength ?? 5,
     staticValueNumber: field?.config?.staticValue?.number ?? 0,
@@ -106,9 +107,9 @@ const MockerFormDrawer = ({
             rules={[{ required: fieldTypeValue === FieldType.VALUE }]}
           >
             <Select
-              options={Object.keys(ValueType).map((f: string) => ({
-                label: f,
-                value: ValueType[f as keyof typeof ValueType],
+              options={MOCK_OPTIONS.map((f) => ({
+                label: f.name,
+                value: f.key,
               }))}
             />
           </Form.Item>
@@ -142,7 +143,7 @@ const MockerFormDrawer = ({
   }
 
   function renderValueConfig() {
-    if (fieldValueTypeValue === ValueType['Static - Number']) {
+    if (fieldValueTypeValue === MOCK_OPTIONS_MAP['Static - Number']) {
       return (
         <Form.Item
           label='Value'
@@ -152,7 +153,7 @@ const MockerFormDrawer = ({
           <InputNumber />
         </Form.Item>
       )
-    } else if (fieldValueTypeValue === ValueType['Static - String']) {
+    } else if (fieldValueTypeValue === MOCK_OPTIONS_MAP['Static - String']) {
       return (
         <Form.Item
           label='Value'
@@ -162,7 +163,7 @@ const MockerFormDrawer = ({
           <Input />
         </Form.Item>
       )
-    } else if (fieldValueTypeValue === ValueType['Static - Boolean']) {
+    } else if (fieldValueTypeValue === MOCK_OPTIONS_MAP['Static - Boolean']) {
       return (
         <Form.Item
           label='Value'

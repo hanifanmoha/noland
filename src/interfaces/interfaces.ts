@@ -1,4 +1,5 @@
-import { FieldType, ValueType } from '@/utils/enums'
+import { FieldType } from '@/utils/enums'
+import { MOCK_OPTIONS_MAP } from '@/utils/mock'
 
 export interface IField {
   isRoot?: boolean
@@ -10,7 +11,7 @@ export interface IField {
 }
 
 export interface IFieldConfig {
-  valueType?: ValueType
+  valueType?: keyof typeof MOCK_OPTIONS_MAP
   minLength?: number
   maxLength?: number
   staticValue?: IFieldConfigStaticValue

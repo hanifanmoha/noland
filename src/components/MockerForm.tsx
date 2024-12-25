@@ -18,8 +18,9 @@ import styles from './MockerForm.module.css'
 import { IField } from '@/interfaces/interfaces'
 import { FieldType } from '@/utils/enums'
 import MockerFormDrawer from './MockerFormDrawer'
-import useMocker, { ROOT_NAME } from '@/hooks/useMocker'
+import useMocker from '@/hooks/useMocker'
 import debugLogger from '@/utils/log'
+import { FIELD_ROOT_NAME } from '@/utils/consts'
 
 const { DirectoryTree } = Tree
 
@@ -114,7 +115,7 @@ const MockerForm = () => {
             Create Child
           </Button>
         )}
-        {props.title !== ROOT_NAME && (
+        {props.title !== FIELD_ROOT_NAME && (
           <>
             <Button
               danger
