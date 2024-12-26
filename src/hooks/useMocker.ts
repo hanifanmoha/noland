@@ -6,7 +6,7 @@ import {
   useState,
 } from 'react'
 
-import { IField } from '@/interfaces/interfaces'
+import { APIMethod, IField } from '@/interfaces/interfaces'
 import { FieldType } from '@/utils/enums'
 import debugLogger from '@/utils/log'
 import { useMockerContext } from '@/contexts/MockerContext'
@@ -101,6 +101,10 @@ type IFieldWithParent = IField & { parent?: IField }
 interface IUseMocker {
   fieldTree: IField
   fieldMap: { [key: string]: IFieldWithParent }
+  title: string
+  method: APIMethod
+  setTitle: (title: string) => void
+  setMethod: (method: string) => void
   onUpdateField: (field: IField) => void
   onInsertField: (field: IField, parentKey: string) => void
   onRemoveField: (fieldKey: string) => void
@@ -110,7 +114,7 @@ interface IUseMocker {
 const useMocker = (): IUseMocker => {
   const logger = debugLogger('useMocker', true)
 
-  const { fieldTree, setFieldTree } = useMockerContext()
+  const { fieldTree, setFieldTree, title, setTitle, method, setMethod } = useMockerContext()
 
   const fieldMap = field2Map(fieldTree, undefined)
 
@@ -143,7 +147,18 @@ const useMocker = (): IUseMocker => {
   }
 
 
-  return { fieldTree, fieldMap, onUpdateField, onInsertField, onRemoveField, onMoveField }
+  return {
+    fieldTree,
+    fieldMap,
+    title,
+    method,
+    onUpdateField,
+    onInsertField,
+    onRemoveField,
+    onMoveField,
+    setTitle,
+    setMethod
+  }
 }
 
 export default useMocker

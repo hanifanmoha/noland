@@ -6,8 +6,8 @@ async function handler(request: NextRequest) {
     const query = request.nextUrl.searchParams.get('_q')
 
     try {
-        const rootField = decodeFieldTree(query ?? '')
-        const jsonData = renderMocker(rootField)
+        const { field } = decodeFieldTree(query ?? '')
+        const jsonData = renderMocker(field)
         return NextResponse.json(jsonData)
     } catch (err) {
         return NextResponse.json({ error: err }, { status: 400 })

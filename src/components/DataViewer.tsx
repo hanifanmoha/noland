@@ -5,7 +5,6 @@ import debugLogger from '@/utils/log'
 import { encodeFieldTree } from '@/utils/encoding'
 import {
   CopyOutlined,
-  GlobalOutlined,
   RocketOutlined,
   SyncOutlined,
 } from '@ant-design/icons'
@@ -19,7 +18,7 @@ const signal = controller.signal
 
 const DataViewer = () => {
   const logger = debugLogger('DataViewer', true)
-  const { fieldTree } = useMocker()
+  const { fieldTree, method, title } = useMocker()
   const [isFetching, setIsFetching] = useState(false)
   const [jsonData, setJsonData] = useState<any>({})
 
@@ -28,7 +27,11 @@ const DataViewer = () => {
     if (typeof window !== 'undefined') {
       host = window.location.origin
     }
-    const query = encodeFieldTree(fieldTree)
+    const query = encodeFieldTree({
+      title,
+      method,
+      field: fieldTree,
+    })
     const path = `/api/mock?_q=${query}`
     return {
       host,
