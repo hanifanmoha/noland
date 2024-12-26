@@ -6,6 +6,7 @@ import { encodeFieldTree } from '@/utils/encoding'
 import {
   CopyOutlined,
   RocketOutlined,
+  SyncOutlined,
 } from '@ant-design/icons'
 import { Card, FloatButton, message } from 'antd'
 import React, { useEffect, useState } from 'react'
@@ -103,7 +104,7 @@ const DataViewer = () => {
         onClick={handleCopy}
       />
       <FloatButton
-        icon={<CopyOutlined />}
+        icon={<SyncOutlined />}
         tooltip='Refresh Mock Data'
         onClick={handleRefresh}
       />
