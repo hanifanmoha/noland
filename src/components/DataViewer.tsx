@@ -7,12 +7,11 @@ import {
   CopyOutlined,
   RocketOutlined,
 } from '@ant-design/icons'
-import { Card, FloatButton, message, Space } from 'antd'
+import { Card, FloatButton, message } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { JSONTree } from 'react-json-tree'
-import { uuid } from 'uuidv4'
 import { SPECIAL_QUERY_PARAMS_KEY } from '@/utils/consts'
-import style from './DataViewer.module.css'
+import styles from './DataViewer.module.css'
 
 const controller = new AbortController()
 const signal = controller.signal
@@ -86,14 +85,13 @@ const DataViewer = () => {
     }
   }
 
-  return <div style={containerStyle}>
+  return <div className={styles.container}>
     <Card
-      className={style.overflow}
-      style={cardStyle}
+      className={[styles.overflow, styles.card].join(' ')}
     >
       <JSONTree data={jsonData} shouldExpandNodeInitially={() => true} />
     </Card>
-    <FloatButton.Group shape='square' style={floatButtonGroup}>
+    <FloatButton.Group shape='square' className={styles.floatButtonGroup}>
       <FloatButton
         icon={<RocketOutlined rotate={45} />}
         tooltip='Open API in New Page'
@@ -115,21 +113,3 @@ const DataViewer = () => {
 }
 
 export default DataViewer
-
-const containerStyle: React.CSSProperties = {
-  height: '100%',
-  width: '100%',
-  padding: '20px 0'
-}
-
-const cardStyle: React.CSSProperties = {
-  height: '100%',
-  backgroundColor: 'rgb(0, 43, 54)',
-  color: 'white',
-  padding: '20px 0'
-}
-
-const floatButtonGroup: React.CSSProperties = {
-  left: 48,
-  right: 'auto'
-}

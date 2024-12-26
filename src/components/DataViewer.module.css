@@ -12,3 +12,21 @@
         display: none;
     }
 }
+
+.container {
+    height: 100%;
+    width: 100%;
+    padding: 20px 0;
+}
+
+.card {
+    height: 100%;
+    background-color: rgb(0, 43, 54);
+    color: #ffffff;
+    padding: 20px 0;
+}
+
+.floatButtonGroup {
+    left: 48px;
+    right: auto
+}

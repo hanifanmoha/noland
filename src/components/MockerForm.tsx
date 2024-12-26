@@ -1,8 +1,8 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Button, Card, Popover, Radio, Row, Space, Tree, Typography } from 'antd'
-import type { RadioChangeEvent, TreeDataNode } from 'antd'
+import { Button, Card, Popover, Space, Tree } from 'antd'
+import type { TreeDataNode } from 'antd'
 import {
   BorderlessTableOutlined,
   FolderOutlined,
@@ -154,7 +154,7 @@ const MockerForm = () => {
   }
 
   return (
-    <div style={containerStyle} className={styles.overflow}>
+    <div className={[styles.overflow, styles.container].join(' ')}>
       <Card>
         <DirectoryTree
           multiple
@@ -177,16 +177,3 @@ const MockerForm = () => {
 }
 
 export default MockerForm
-
-const containerStyle: React.CSSProperties = {
-  height: '100%',
-  width: '100%',
-  padding: '20px 0'
-}
-
-const spaceStyle: React.CSSProperties = {
-  padding: '0 20px',
-  height: '100%',
-  display: 'flex',
-  overflow: 'auto',
-}

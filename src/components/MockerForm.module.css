@@ -18,3 +18,15 @@
     display: none;
   }
 }
+
+.container {
+  height: 100%;
+  width: 100%;
+  padding: 20px 0;
+}
+
+.space {
+  padding: 0 20px;
+  height: 100%;
+  display: flex;
+}
