@@ -1,11 +1,10 @@
 'use client'
 
-import { APIMethod, IAPIMock, IField } from '@/interfaces/interfaces'
+import { APIMethod, IField } from '@/interfaces/interfaces'
 import { SPECIAL_QUERY_PARAMS_KEY } from '@/utils/consts'
 import { decodeFieldTree, encodeFieldTree } from '@/utils/encoding'
 import { exampleOrderList } from '@/utils/initialvalue'
 import { useSearchParams } from 'next/navigation'
-import { useRouter } from 'next/router'
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
 
 interface IMockerContext {

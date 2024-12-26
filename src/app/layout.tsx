@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import MockerProvider from '@/contexts/MockerContext'
+import { Suspense } from 'react'
 
-const inter = Inter({ subsets: ['latin'] })
+const font = Inter({ weight: '400', subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Noland',
@@ -17,8 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={inter.className}>
-        <MockerProvider>{children}</MockerProvider>
+      <body className={font.className}>
+        <Suspense>
+          <MockerProvider>{children}</MockerProvider>
+        </Suspense>
       </body>
     </html>
   )
