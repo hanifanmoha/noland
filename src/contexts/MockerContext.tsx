@@ -1,8 +1,12 @@
 'use client'
 
-import { APIMethod, IField } from '@/interfaces/interfaces'
+import { APIMethod, IAPIMock, IField } from '@/interfaces/interfaces'
+import { SPECIAL_QUERY_PARAMS_KEY } from '@/utils/consts'
+import { decodeFieldTree, encodeFieldTree } from '@/utils/encoding'
 import { exampleOrderList } from '@/utils/initialvalue'
-import { createContext, ReactNode, useContext, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/router'
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
 
 interface IMockerContext {
   fieldTree: IField
@@ -17,10 +21,43 @@ export const MockerContext = createContext<IMockerContext | undefined>(
   undefined
 )
 
+function getFieldTreeInitialValue(encodedFieldTree: string): IField {
+
+  if (encodedFieldTree) {
+    try {
+      const { field } = decodeFieldTree(decodeURIComponent(encodedFieldTree))
+      if (!field.isRoot) {
+        throw new Error('Failed to parse query')
+      }
+      return field
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  return exampleOrderList
+
+}
+
 const MockerProvider = ({ children }: { children: ReactNode }) => {
-  const [fieldTree, setFieldTree] = useState(exampleOrderList)
+  const searchParams = useSearchParams()
+  const encodedFieldTree = searchParams.get(SPECIAL_QUERY_PARAMS_KEY) ?? ''
+  const initialField = getFieldTreeInitialValue(encodedFieldTree)
+
+  const [fieldTree, setFieldTree] = useState(initialField)
   const [method, setMethod] = useState<APIMethod>('GET')
   const [title, setTitle] = useState('')
+
+  useEffect(() => {
+    const encodedData = encodeFieldTree({
+      title,
+      method,
+      field: fieldTree,
+    })
+    const url = new URL(window.location.href)
+    url.searchParams.set(SPECIAL_QUERY_PARAMS_KEY, encodedData)
+    window.history.replaceState({}, '', url)
+  }, [fieldTree, title, method])
 
   return (
     <MockerContext.Provider value={{ fieldTree, setFieldTree, method, setMethod, title, setTitle }}>
