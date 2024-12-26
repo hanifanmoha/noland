@@ -1,4 +1,5 @@
-import { decodeFieldTree, renderMocker } from '@/utils/mock'
+import { decodeFieldTree } from '@/utils/encoding'
+import { renderMocker } from '@/utils/mock'
 import { NextRequest, NextResponse } from 'next/server'
 
 async function handler(request: NextRequest) {

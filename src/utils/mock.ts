@@ -41,16 +41,6 @@ export const MOCK_OPTIONS: IMockOptions[] = [
   ...FAKERJS_MOCK_OPTIONS
 ] as const
 
-export const encodeFieldTree = (rootField: IField): string => {
-  const str = JSON.stringify(rootField)
-  return Buffer.from(str).toString('base64')
-}
-
-export const decodeFieldTree = (base64String: string): IField => {
-  const str = Buffer.from(base64String, 'base64').toString('utf-8')
-  return JSON.parse(str)
-}
-
 const getMockedValue = (config: IFieldConfig) => {
   const mockOption = MOCK_OPTIONS.find(opt => opt.key === config.valueType)
   if (mockOption) {

@@ -2,7 +2,7 @@
 
 import useMocker from '@/hooks/useMocker'
 import debugLogger from '@/utils/log'
-import { encodeFieldTree } from '@/utils/mock'
+import { encodeFieldTree } from '@/utils/encoding'
 import {
   CopyOutlined,
   GlobalOutlined,
