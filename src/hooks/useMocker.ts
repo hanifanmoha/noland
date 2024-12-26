@@ -104,7 +104,7 @@ interface IUseMocker {
   title: string
   method: APIMethod
   setTitle: (title: string) => void
-  setMethod: (method: string) => void
+  setMethod: (method: APIMethod) => void
   onUpdateField: (field: IField) => void
   onInsertField: (field: IField, parentKey: string) => void
   onRemoveField: (fieldKey: string) => void

@@ -1,9 +1,10 @@
+import { SPECIAL_QUERY_PARAMS_KEY } from '@/utils/consts'
 import { decodeFieldTree } from '@/utils/encoding'
 import { renderMocker } from '@/utils/mock'
 import { NextRequest, NextResponse } from 'next/server'
 
 async function handler(request: NextRequest) {
-    const query = request.nextUrl.searchParams.get('_q')
+    const query = request.nextUrl.searchParams.get(SPECIAL_QUERY_PARAMS_KEY)
 
     try {
         const { field } = decodeFieldTree(query ?? '')

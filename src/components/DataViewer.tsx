@@ -12,6 +12,7 @@ import { FloatButton, message } from 'antd'
 import { useEffect, useState } from 'react'
 import { JSONTree } from 'react-json-tree'
 import { uuid } from 'uuidv4'
+import { SPECIAL_QUERY_PARAMS_KEY } from '@/utils/consts'
 
 const controller = new AbortController()
 const signal = controller.signal
@@ -32,7 +33,7 @@ const DataViewer = () => {
       method,
       field: fieldTree,
     })
-    const path = `/api/mock?_q=${query}`
+    const path = `/api/mock?${SPECIAL_QUERY_PARAMS_KEY}=${query}`
     return {
       host,
       path,
