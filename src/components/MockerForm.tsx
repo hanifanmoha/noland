@@ -154,7 +154,7 @@ const MockerForm = () => {
   }
 
   return (
-    <Space direction='vertical' style={spaceStyle}>
+    <div style={containerStyle} className={styles.overflow}>
       <Card>
         <DirectoryTree
           multiple
@@ -172,14 +172,21 @@ const MockerForm = () => {
         onSave={onFormDrawerSubmit}
         onClose={onFormDrawerClosed}
       />
-    </Space>
+    </div>
   )
 }
 
 export default MockerForm
 
-const spaceStyle: React.CSSProperties = {
-  padding: 20,
+const containerStyle: React.CSSProperties = {
+  height: '100%',
   width: '100%',
+  padding: '20px 0'
+}
+
+const spaceStyle: React.CSSProperties = {
+  padding: '0 20px',
+  height: '100%',
   display: 'flex',
+  overflow: 'auto',
 }

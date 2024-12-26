@@ -6,13 +6,13 @@ import { encodeFieldTree } from '@/utils/encoding'
 import {
   CopyOutlined,
   RocketOutlined,
-  SyncOutlined,
 } from '@ant-design/icons'
-import { FloatButton, message } from 'antd'
-import { useEffect, useState } from 'react'
+import { Card, FloatButton, message, Space } from 'antd'
+import React, { useEffect, useState } from 'react'
 import { JSONTree } from 'react-json-tree'
 import { uuid } from 'uuidv4'
 import { SPECIAL_QUERY_PARAMS_KEY } from '@/utils/consts'
+import style from './DataViewer.module.css'
 
 const controller = new AbortController()
 const signal = controller.signal
@@ -42,7 +42,6 @@ const DataViewer = () => {
 
   useEffect(() => {
     const refetch = async () => {
-      const key = uuid()
       setIsFetching(true)
       try {
         const { path } = getURL()
@@ -87,36 +86,50 @@ const DataViewer = () => {
     }
   }
 
-  return (
-    <div
-      style={{
-        backgroundColor: `rgb(0, 43, 54)`,
-        padding: 20,
-        paddingBottom: 200,
-        minHeight: '100%',
-        fontSize: 16,
-      }}
+  return <div style={containerStyle}>
+    <Card
+      className={style.overflow}
+      style={cardStyle}
     >
       <JSONTree data={jsonData} shouldExpandNodeInitially={() => true} />
-      <FloatButton.Group shape='square' style={{ left: 24, right: 'auto' }}>
-        <FloatButton
-          icon={<RocketOutlined rotate={45} />}
-          tooltip='Open API in New Page'
-          onClick={handleOpenNewTab}
-        />
-        <FloatButton
-          icon={<CopyOutlined />}
-          tooltip='Copy API URL'
-          onClick={handleCopy}
-        />
-        <FloatButton
-          icon={<SyncOutlined />}
-          tooltip='Refresh Mock Data'
-          onClick={handleRefresh}
-        />
-      </FloatButton.Group>
-    </div>
-  )
+    </Card>
+    <FloatButton.Group shape='square' style={floatButtonGroup}>
+      <FloatButton
+        icon={<RocketOutlined rotate={45} />}
+        tooltip='Open API in New Page'
+        onClick={handleOpenNewTab}
+      />
+      <FloatButton
+        icon={<CopyOutlined />}
+        tooltip='Copy API URL'
+        onClick={handleCopy}
+      />
+      <FloatButton
+        icon={<CopyOutlined />}
+        tooltip='Refresh Mock Data'
+        onClick={handleRefresh}
+      />
+    </FloatButton.Group>
+  </div>
+
 }
 
 export default DataViewer
+
+const containerStyle: React.CSSProperties = {
+  height: '100%',
+  width: '100%',
+  padding: '20px 0'
+}
+
+const cardStyle: React.CSSProperties = {
+  height: '100%',
+  backgroundColor: 'rgb(0, 43, 54)',
+  color: 'white',
+  padding: '20px 0'
+}
+
+const floatButtonGroup: React.CSSProperties = {
+  left: 48,
+  right: 'auto'
+}
