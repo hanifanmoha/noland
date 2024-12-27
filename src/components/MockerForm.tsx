@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Button, Card, Popover, Space, Tree } from 'antd'
+import { Button, Collapse, Input, Popover, Select, Space, Tree } from 'antd'
 import type { TreeDataNode } from 'antd'
 import {
   BorderlessTableOutlined,
@@ -15,12 +15,13 @@ import {
 } from '@ant-design/icons'
 
 import styles from './MockerForm.module.css'
-import { IField } from '@/interfaces/interfaces'
+import { APIMethod, IField } from '@/interfaces/interfaces'
 import { FieldType } from '@/utils/enums'
 import MockerFormDrawer from './MockerFormDrawer'
 import useMocker from '@/hooks/useMocker'
 import debugLogger from '@/utils/log'
-import { FIELD_ROOT_NAME } from '@/utils/consts'
+import { FIELD_ROOT_NAME, PREFIX_API } from '@/utils/consts'
+import { el } from '@faker-js/faker'
 
 const { DirectoryTree } = Tree
 
@@ -55,12 +56,30 @@ const MockerForm = () => {
   const [formDrawer, setFormDrawer] = useState<IFormDrawerState>({
     isOpen: false,
   })
-  const { fieldTree, fieldMap, onUpdateField, onInsertField, onRemoveField, onMoveField } =
+  const {
+    fieldTree,
+    fieldMap,
+    title,
+    method,
+    setMethod,
+    setTitle,
+    onUpdateField,
+    onInsertField,
+    onRemoveField,
+    onMoveField } =
     useMocker()
   const treeData = field2TreeData(fieldTree)
 
   const onFormDrawerClosed = () => {
     setFormDrawer({ isOpen: false })
+  }
+
+  const handleConfigChange = (key: string) => (value: string) => {
+    if (key === 'method') {
+      setMethod(value as APIMethod)
+    } else if (key === 'title') {
+      setTitle(value)
+    }
   }
 
   const onParamAction =
@@ -92,7 +111,7 @@ const MockerForm = () => {
     setFormDrawer({ isOpen: false })
   }
 
-  const titleContent = (props: TreeDataNode) => {
+  const paramOptions = (props: TreeDataNode) => {
     const field = fieldMap[props.key as string]
     if (!field) return null
 
@@ -141,29 +160,62 @@ const MockerForm = () => {
     )
   }
 
-  const title = (props: TreeDataNode) => {
+  const parameter = (props: TreeDataNode) => {
     return (
       <Popover
         placement='right'
         title={props.title as string}
-        content={() => titleContent(props)}
+        content={() => paramOptions(props)}
       >
         <span className={styles.paramTitle}>{props.title as string}</span>
       </Popover>
     )
   }
 
+  function Config() {
+    const methodOptions = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD'].map((method) => ({
+      label: method,
+      value: method,
+    }))
+    return <div className={styles.config}>
+      <div className={styles.configInput}>
+        <Select
+          className={styles.configInputMethod}
+          defaultValue='GET'
+          options={methodOptions}
+          value={method}
+          onChange={handleConfigChange('method')}
+        />
+        <Input
+          className={styles.configInputPath}
+          addonBefore={`${PREFIX_API}/`}
+          placeholder='your-api-name'
+          value={title}
+          onChange={(e) => handleConfigChange('title')(e.target.value)}
+        />
+      </div>
+    </div>
+  }
+
+  function Response() {
+    return <DirectoryTree
+      multiple
+      showLine
+      defaultExpandAll
+      treeData={[treeData]}
+      titleRender={parameter}
+    />
+  }
+
   return (
     <div className={[styles.overflow, styles.container].join(' ')}>
-      <Card>
-        <DirectoryTree
-          multiple
-          showLine
-          defaultExpandAll
-          treeData={[treeData]}
-          titleRender={title}
-        />
-      </Card>
+      <Collapse
+        defaultActiveKey={['config', 'response']}
+        items={[
+          { key: 'config', label: 'Configuration', children: Config() },
+          { key: 'response', label: 'Response Structure', children: Response() }
+        ]}
+      />
       <MockerFormDrawer
         key={`${formDrawer.mode}-${formDrawer.field?.key}`}
         isOpen={formDrawer.isOpen}

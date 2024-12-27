@@ -30,3 +30,19 @@
   height: 100%;
   display: flex;
 }
+
+.config {}
+
+.configInput {
+  width: 100%;
+  display: flex;
+}
+
+.configInputMethod {
+  width: 100px;
+  margin-right: 12px;
+}
+
+.configInputPath {
+  flex: 1
+}

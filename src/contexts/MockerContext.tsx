@@ -1,6 +1,6 @@
 'use client'
 
-import { APIMethod, IField } from '@/interfaces/interfaces'
+import { APIMethod, IAPIMock, IField } from '@/interfaces/interfaces'
 import { SPECIAL_QUERY_PARAMS_KEY } from '@/utils/consts'
 import { decodeFieldTree, encodeFieldTree } from '@/utils/encoding'
 import { exampleOrderList } from '@/utils/initialvalue'
@@ -20,32 +20,32 @@ export const MockerContext = createContext<IMockerContext | undefined>(
   undefined
 )
 
-function getFieldTreeInitialValue(encodedFieldTree: string): IField {
+function getFieldTreeInitialValue(encodedFieldTree: string): IAPIMock {
 
   if (encodedFieldTree) {
     try {
-      const { field } = decodeFieldTree(decodeURIComponent(encodedFieldTree))
-      if (!field.isRoot) {
+      const apiMock = decodeFieldTree(decodeURIComponent(encodedFieldTree))
+      if (!apiMock?.field.isRoot) {
         throw new Error('Failed to parse query')
       }
-      return field
+      return apiMock
     } catch (e) {
       console.error(e)
     }
   }
 
-  return exampleOrderList
+  return { title: '', method: 'GET', field: exampleOrderList }
 
 }
 
 const MockerProvider = ({ children }: { children: ReactNode }) => {
   const searchParams = useSearchParams()
   const encodedFieldTree = searchParams.get(SPECIAL_QUERY_PARAMS_KEY) ?? ''
-  const initialField = getFieldTreeInitialValue(encodedFieldTree)
+  const apiMock = getFieldTreeInitialValue(encodedFieldTree)
 
-  const [fieldTree, setFieldTree] = useState(initialField)
-  const [method, setMethod] = useState<APIMethod>('GET')
-  const [title, setTitle] = useState('')
+  const [fieldTree, setFieldTree] = useState(apiMock.field)
+  const [method, setMethod] = useState<APIMethod>(apiMock.method)
+  const [title, setTitle] = useState(apiMock.title)
 
   useEffect(() => {
     const encodedData = encodeFieldTree({
