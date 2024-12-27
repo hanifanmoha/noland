@@ -19,7 +19,7 @@ const signal = controller.signal
 
 const DataViewer = () => {
   const logger = debugLogger('DataViewer', true)
-  const { fieldTree, method, path, id } = useMocker()
+  const { fieldTree, getEncodedString } = useMocker()
   const [isFetching, setIsFetching] = useState(false)
   const [jsonData, setJsonData] = useState<any>({})
 
@@ -28,12 +28,7 @@ const DataViewer = () => {
     if (typeof window !== 'undefined') {
       host = window.location.origin
     }
-    const query = encodeFieldTree({
-      id,
-      path,
-      method,
-      field: fieldTree,
-    })
+    const query = getEncodedString()
     const url = `/api/mock?${SPECIAL_QUERY_PARAMS_KEY}=${query}`
     return {
       host,

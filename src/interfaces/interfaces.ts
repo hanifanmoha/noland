@@ -1,6 +1,11 @@
 import { FieldType } from '@/utils/enums'
 
 export type APIMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'OPTIONS' | 'HEAD'
+
+export interface IAPIStorage {
+  id: string,
+  datastring: string
+}
 export interface IAPIMock {
   id: string
   path: string

@@ -62,7 +62,7 @@ const MockerProvider = ({ children }: { children: ReactNode }) => {
   }, [fieldTree, path, method])
 
   return (
-    <MockerContext.Provider value={{ id: apiMock.id, fieldTree, setFieldTree, method, setMethod, path, setPath }}>
+    <MockerContext.Provider value={{ id: apiMock.id ?? uuid(), fieldTree, setFieldTree, method, setMethod, path, setPath }}>
       {children}
     </MockerContext.Provider>
   )

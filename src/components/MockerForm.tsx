@@ -23,6 +23,9 @@ import useMocker from '@/hooks/useMocker'
 import debugLogger from '@/utils/log'
 import { FIELD_ROOT_NAME, PREFIX_API } from '@/utils/consts'
 import { el } from '@faker-js/faker'
+import { get } from 'http'
+import { useAPIStorage } from '@/hooks/useAPIStorage'
+import { uuid } from 'uuidv4'
 
 const { DirectoryTree } = Tree
 
@@ -58,6 +61,7 @@ const MockerForm = () => {
     isOpen: false,
   })
   const {
+    id: apiID,
     fieldTree,
     fieldMap,
     path,
@@ -67,8 +71,15 @@ const MockerForm = () => {
     onUpdateField,
     onInsertField,
     onRemoveField,
-    onMoveField } =
+    onMoveField,
+    getEncodedString
+  } =
     useMocker()
+
+  console.log(apiID)
+
+  const { saveData } = useAPIStorage()
+
   const treeData = field2TreeData(fieldTree)
 
   const onFormDrawerClosed = () => {
@@ -110,6 +121,12 @@ const MockerForm = () => {
     }
 
     setFormDrawer({ isOpen: false })
+  }
+
+  const onSaveAPI = () => {
+    logger.log('onSave')
+    const query = getEncodedString()
+    saveData({ id: apiID, datastring: query })
   }
 
   const paramOptions = (props: TreeDataNode) => {
@@ -194,9 +211,9 @@ const MockerForm = () => {
           value={path}
           onChange={(e) => handleConfigChange('path')(e.target.value)}
         />
-        {/* <Tooltip title='Save to Localstorage'>
-          <Button type="primary" icon={<SaveOutlined />} disabled={!path} />
-        </Tooltip> */}
+        <Tooltip title='Save to Localstorage'>
+          <Button type="primary" icon={<SaveOutlined />} disabled={!path} onClick={onSaveAPI} />
+        </Tooltip>
       </div>
     </div>
   }

@@ -11,6 +11,7 @@ import { FieldType } from '@/utils/enums'
 import debugLogger from '@/utils/log'
 import { useMockerContext } from '@/contexts/MockerContext'
 import { useRouter } from 'next/router'
+import { encodeFieldTree } from '@/utils/encoding'
 
 const field2Map = (
   field: IField,
@@ -111,6 +112,7 @@ interface IUseMocker {
   onInsertField: (field: IField, parentKey: string) => void
   onRemoveField: (fieldKey: string) => void
   onMoveField: (fieldKey: string, isMoveUp: boolean) => void
+  getEncodedString: () => string
 }
 
 const useMocker = (): IUseMocker => {
@@ -148,6 +150,16 @@ const useMocker = (): IUseMocker => {
     setFieldTree(updatedRoot)
   }
 
+  const getEncodedString = () => {
+    const query = encodeFieldTree({
+      id,
+      path,
+      method,
+      field: fieldTree,
+    })
+    return query
+  }
+
   return {
     id,
     fieldTree,
@@ -159,7 +171,8 @@ const useMocker = (): IUseMocker => {
     onRemoveField,
     onMoveField,
     setPath,
-    setMethod
+    setMethod,
+    getEncodedString
   }
 }
 
