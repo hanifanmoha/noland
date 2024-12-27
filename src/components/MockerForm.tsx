@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Button, Collapse, Input, Popover, Select, Space, Tree } from 'antd'
+import { Button, Collapse, Input, Popover, Select, Space, Tooltip, Tree } from 'antd'
 import type { TreeDataNode } from 'antd'
 import {
   BorderlessTableOutlined,
@@ -12,6 +12,7 @@ import {
   PlusOutlined,
   ArrowUpOutlined,
   ArrowDownOutlined,
+  SaveOutlined,
 } from '@ant-design/icons'
 
 import styles from './MockerForm.module.css'
@@ -59,10 +60,10 @@ const MockerForm = () => {
   const {
     fieldTree,
     fieldMap,
-    title,
+    path,
     method,
     setMethod,
-    setTitle,
+    setPath,
     onUpdateField,
     onInsertField,
     onRemoveField,
@@ -77,8 +78,8 @@ const MockerForm = () => {
   const handleConfigChange = (key: string) => (value: string) => {
     if (key === 'method') {
       setMethod(value as APIMethod)
-    } else if (key === 'title') {
-      setTitle(value)
+    } else if (key === 'path') {
+      setPath(value)
     }
   }
 
@@ -190,9 +191,12 @@ const MockerForm = () => {
           className={styles.configInputPath}
           addonBefore={`${PREFIX_API}/`}
           placeholder='your-api-name'
-          value={title}
-          onChange={(e) => handleConfigChange('title')(e.target.value)}
+          value={path}
+          onChange={(e) => handleConfigChange('path')(e.target.value)}
         />
+        {/* <Tooltip title='Save to Localstorage'>
+          <Button type="primary" icon={<SaveOutlined />} disabled={!path} />
+        </Tooltip> */}
       </div>
     </div>
   }

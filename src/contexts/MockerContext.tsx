@@ -6,14 +6,16 @@ import { decodeFieldTree, encodeFieldTree } from '@/utils/encoding'
 import { exampleOrderList } from '@/utils/initialvalue'
 import { useSearchParams } from 'next/navigation'
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
+import { uuid } from 'uuidv4'
 
 interface IMockerContext {
+  id: string
   fieldTree: IField
   setFieldTree: (field: IField) => void
   method: APIMethod
   setMethod: (method: APIMethod) => void
-  title: string
-  setTitle: (title: string) => void
+  path: string
+  setPath: (path: string) => void
 }
 
 export const MockerContext = createContext<IMockerContext | undefined>(
@@ -34,7 +36,7 @@ function getFieldTreeInitialValue(encodedFieldTree: string): IAPIMock {
     }
   }
 
-  return { title: '', method: 'GET', field: exampleOrderList }
+  return { id: uuid(), path: '', method: 'GET', field: exampleOrderList }
 
 }
 
@@ -45,21 +47,22 @@ const MockerProvider = ({ children }: { children: ReactNode }) => {
 
   const [fieldTree, setFieldTree] = useState(apiMock.field)
   const [method, setMethod] = useState<APIMethod>(apiMock.method)
-  const [title, setTitle] = useState(apiMock.title)
+  const [path, setPath] = useState(apiMock.path)
 
   useEffect(() => {
     const encodedData = encodeFieldTree({
-      title,
+      id: apiMock.id,
+      path,
       method,
       field: fieldTree,
     })
     const url = new URL(window.location.href)
     url.searchParams.set(SPECIAL_QUERY_PARAMS_KEY, encodedData)
     window.history.replaceState({}, '', url)
-  }, [fieldTree, title, method])
+  }, [fieldTree, path, method])
 
   return (
-    <MockerContext.Provider value={{ fieldTree, setFieldTree, method, setMethod, title, setTitle }}>
+    <MockerContext.Provider value={{ id: apiMock.id, fieldTree, setFieldTree, method, setMethod, path, setPath }}>
       {children}
     </MockerContext.Provider>
   )

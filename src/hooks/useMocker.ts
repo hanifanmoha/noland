@@ -100,11 +100,12 @@ const traverseMove = (current: IField, movedKey: string, isMoveUp: boolean) => {
 type IFieldWithParent = IField & { parent?: IField }
 
 interface IUseMocker {
+  id: string
   fieldTree: IField
   fieldMap: { [key: string]: IFieldWithParent }
-  title: string
+  path: string
   method: APIMethod
-  setTitle: (title: string) => void
+  setPath: (title: string) => void
   setMethod: (method: APIMethod) => void
   onUpdateField: (field: IField) => void
   onInsertField: (field: IField, parentKey: string) => void
@@ -115,7 +116,7 @@ interface IUseMocker {
 const useMocker = (): IUseMocker => {
   const logger = debugLogger('useMocker', true)
 
-  const { fieldTree, setFieldTree, title, setTitle, method, setMethod } = useMockerContext()
+  const { id, fieldTree, setFieldTree, path, setPath, method, setMethod } = useMockerContext()
 
   const fieldMap = field2Map(fieldTree, undefined)
 
@@ -147,17 +148,17 @@ const useMocker = (): IUseMocker => {
     setFieldTree(updatedRoot)
   }
 
-
   return {
+    id,
     fieldTree,
     fieldMap,
-    title,
+    path,
     method,
     onUpdateField,
     onInsertField,
     onRemoveField,
     onMoveField,
-    setTitle,
+    setPath,
     setMethod
   }
 }
