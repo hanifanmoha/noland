@@ -68,6 +68,7 @@ const MockerFormDrawer = ({
       key: uuid(),
       name: values.name,
       type: values.type,
+      isRoot: field?.isRoot ?? false,
       config: {
         valueType: values.valueType,
         minLength: values.minLength,
@@ -239,7 +240,7 @@ const MockerFormDrawer = ({
         onFinishFailed={onFinishFailed}
       >
         <Form.Item label='Name' name='name' rules={[{ required: true }]}>
-          <Input />
+          <Input disabled={mode === 'edit' && field?.isRoot} />
         </Form.Item>
         <Form.Item label='Type' name='type' rules={[{ required: true }]}>
           <Select

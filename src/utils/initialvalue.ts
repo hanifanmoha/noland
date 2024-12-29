@@ -4,6 +4,14 @@ import { IField } from '@/interfaces/interfaces'
 import { FieldType } from '@/utils/enums'
 import { FIELD_ROOT_NAME } from './consts'
 
+export const exampleEmptyField: IField = {
+    isRoot: true,
+    name: FIELD_ROOT_NAME,
+    type: FieldType.OBJECT,
+    key: uuid(),
+    children: [],
+}
+
 export const exampleOrderList: IField = {
     isRoot: true,
     name: FIELD_ROOT_NAME,
@@ -178,3 +186,5 @@ export const exampleOrderList: IField = {
         },
     ],
 }
+
+export const defaultFields = exampleOrderList

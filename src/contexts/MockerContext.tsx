@@ -3,7 +3,7 @@
 import { APIMethod, IAPIMock, IField } from '@/interfaces/interfaces'
 import { SPECIAL_QUERY_PARAMS_KEY } from '@/utils/consts'
 import { decodeFieldTree, encodeFieldTree } from '@/utils/encoding'
-import { exampleOrderList } from '@/utils/initialvalue'
+import { defaultFields, exampleOrderList } from '@/utils/initialvalue'
 import { useSearchParams } from 'next/navigation'
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
 import { uuid } from 'uuidv4'
@@ -36,7 +36,7 @@ function getFieldTreeInitialValue(encodedFieldTree: string): IAPIMock {
     }
   }
 
-  return { id: uuid(), path: '', method: 'GET', field: exampleOrderList }
+  return { id: uuid(), path: '', method: 'GET', field: defaultFields }
 
 }
 

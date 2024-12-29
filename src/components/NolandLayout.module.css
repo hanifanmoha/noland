@@ -2,6 +2,10 @@
     height: 100vh;
 }
 
+.loading {
+    padding: 20px
+}
+
 .header {
     background-color: #ffffff;
     border-bottom: 1px solid #f0f0f0;
@@ -11,6 +15,11 @@
     color: #000000;
     display: flex;
     align-items: center;
+}
+
+.menu {
+    margin-left: auto;
+    display: none;
 }
 
 .layout {

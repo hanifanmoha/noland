@@ -10,7 +10,6 @@ import { APIMethod, IField } from '@/interfaces/interfaces'
 import { FieldType } from '@/utils/enums'
 import debugLogger from '@/utils/log'
 import { useMockerContext } from '@/contexts/MockerContext'
-import { useRouter } from 'next/router'
 import { encodeFieldTree } from '@/utils/encoding'
 
 const field2Map = (
