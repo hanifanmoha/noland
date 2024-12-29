@@ -20,9 +20,17 @@ export function useAPIStorage() {
     const saveData = useCallback(
         async (data: IAPIStorage) => {
             console.log(data)
+            const { id } = data;
             try {
-                await db.table(TABLE_NAME).add(data);
-                console.log('Data saved successfully:', data);
+                const items = await db.table(TABLE_NAME).get(id);
+
+                if (items) {
+                    await db.table(TABLE_NAME).update(id, data);
+                    console.log('Data updated successfully:', data);
+                } else {
+                    await db.table(TABLE_NAME).add(data);
+                    console.log('Data saved successfully:', data);
+                }
             } catch (error) {
                 console.error('Error saving data:', error);
             }
@@ -45,5 +53,5 @@ export function useAPIStorage() {
         loadData();
     }, [loadData]);
 
-    return { saveData, data, loadData };
+    return { data, saveData, loadData };
 }

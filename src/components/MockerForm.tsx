@@ -76,8 +76,6 @@ const MockerForm = () => {
   } =
     useMocker()
 
-  console.log(apiID)
-
   const { saveData } = useAPIStorage()
 
   const treeData = field2TreeData(fieldTree)
