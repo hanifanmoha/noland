@@ -20,6 +20,9 @@ const NolandLayout = () => {
           <Content className={styles.content}>
             <DataViewer />
           </Content>
+          <div className={styles.dividerContainer}>
+            <div className={styles.divider} />
+          </div>
           <Content className={styles.content}>
             <MockerForm />
           </Content>

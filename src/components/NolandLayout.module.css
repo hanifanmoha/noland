@@ -27,3 +27,13 @@
 .title {
     margin: 0 !important
 }
+
+.dividerContainer {
+    height: 100%;
+    padding: 20px 0;
+}
+
+.divider {
+    border-right: 1px solid #d9d9d9;
+    height: 100%;
+}
