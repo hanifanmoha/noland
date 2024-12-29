@@ -11,7 +11,7 @@ const { Content, Header } = Layout
 
 const NolandLayout = () => {
   return (
-    <ConfigProvider>
+    <ConfigProvider theme={{ token: { fontFamily: 'inherit' } }}>
       <Layout className={styles.root}>
         <Header className={styles.header}>
           <Title className={styles.title} level={4}>THE GOLDEN CITY DOES EXIST</Title>
