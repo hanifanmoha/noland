@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Example</title>
+</head>
+
+<body>
+    <h1>Access-Control-Allow-Headers Response</h1>
+    <button id="fetchButton">Fetch Data</button>
+    <pre id="response"></pre>
+
+    <script>
+        // Add event listener to the button to trigger the fetch request
+        document.getElementById('fetchButton').addEventListener('click', () => {
+            // Replace with the actual URL that you want to send the request to
+            const url = `https://no-land-j503iu7am-hanifan-mohamads-projects.vercel.app/api/mock?__q=eyJpZCI6IjJmYTkwN2I3LTA5NjEtNGU1OS1hZmY2LWYzMzY2ZDc2ZDJjNiIsInBhdGgiOiJvcmRlcnMiLCJtZXRob2QiOiJHRVQiLCJmaWVsZCI6eyJpc1Jvb3QiOnRydWUsIm5hbWUiOiI6cm9vdDoiLCJ0eXBlIjoiYXJyYXkiLCJrZXkiOiJhNzRhNDFmNi05NDVhLTQ3N2MtYTMwYi03NTE3ZGJhNzIyZTIiLCJjb25maWciOnsibWluTGVuZ3RoIjo1LCJtYXhMZW5ndGgiOjV9LCJjaGlsZHJlbiI6W3sia2V5IjoiNzYyOTUyYTctOTgwZi00OWNlLWJhZTAtMjY4Zjg1MzgyYmM0IiwibmFtZSI6Im9yZGVyX2lkIiwidHlwZSI6InZhbHVlIiwiY29uZmlnIjp7InZhbHVlVHlwZSI6ImlkLnV1aWR2NCJ9fSx7ImtleSI6IjA1NjJhOTJmLTI3MzctNDc3NC1hZGFkLTMyMDc0MjI1YTkyZCIsIm5hbWUiOiJvcmRlcl9kYXRlIiwidHlwZSI6InZhbHVlIiwiY29uZmlnIjp7InZhbHVlVHlwZSI6ImNoYW5jZS5kYXRlIn19LHsia2V5IjoiZWI3Yjk4M2MtNzRjZC00MTQ5LWE4OGEtZjE4YTE0YmRkNTVlIiwibmFtZSI6InRheF9wZXJjZW50YWdlIiwidHlwZSI6InZhbHVlIiwiY29uZmlnIjp7InZhbHVlVHlwZSI6InN0YXRpYy5udW1iZXIiLCJzdGF0aWNWYWx1ZSI6eyJudW1iZXIiOjAuMDF9fX0seyJrZXkiOiI1ZDViZjU2OC01YzEwLTQ5MzktOTAzNi0wZWM0MzczNjAwYjgiLCJuYW1lIjoiY29tcGFueV9jb2RlIiwidHlwZSI6InZhbHVlIiwiY29uZmlnIjp7InZhbHVlVHlwZSI6InN0YXRpYy5zdHJpbmciLCJzdGF0aWNWYWx1ZSI6eyJzdHJpbmciOiJDWFQifX19LHsia2V5IjoiN2VlOTQ4NmItMGU0MC00YTI5LTkwNWMtYWIyNzYxYTdlZGQyIiwibmFtZSI6ImlzX3ZhbGlkIiwidHlwZSI6InZhbHVlIiwiY29uZmlnIjp7InZhbHVlVHlwZSI6InN0YXRpYy5ib29sZWFuIiwic3RhdGljVmFsdWUiOnsiYm9vbGVhbiI6dHJ1ZX19fSx7ImtleSI6IjdkZTViOTczLTNmYTktNGVmYi1iNjEyLWM2M2Q0MjM3MGM4MCIsIm5hbWUiOiJjdXN0b21lciIsInR5cGUiOiJvYmplY3QiLCJjaGlsZHJlbiI6W3sia2V5IjoiZDhiZjczM2QtNGVkYi00NTU5LThmMDItYjMwYTE5MzM2NGZjIiwibmFtZSI6ImN1c3RvbWVyX2lkIiwidHlwZSI6InZhbHVlIiwiY29uZmlnIjp7InZhbHVlVHlwZSI6ImlkLnV1aWR2NCJ9fSx7ImtleSI6ImJhMTY2YzU4LTMyMzItNDRiZi1hYTgzLWRlZWRkYWE0ZDFiOCIsIm5hbWUiOiJjdXN0b21lcl9uYW1lIiwidHlwZSI6InZhbHVlIiwiY29uZmlnIjp7InZhbHVlVHlwZSI6ImNoYW5jZS5uYW1lIn19LHsia2V5IjoiMjkwN2Y0M2QtYWVkYi00MmI3LWJkNGMtZWRkMDRlZDc4NGMxIiwibmFtZSI6ImN1c3RvbWVyX2VtYWlsIiwidHlwZSI6InZhbHVlIiwiY29uZmlnIjp7InZhbHVlVHlwZSI6ImNoYW5jZS5lbWFpbCJ9fSx7ImtleSI6IjcyZThjNjAxLTI3NjctNDc3ZS05NGI1LTUwY2ZhMGU2NmI3YyIsIm5hbWUiOiJjdXN0b21lcl9hZGRyZXNzIiwidHlwZSI6InZhbHVlIiwiY29uZmlnIjp7InZhbHVlVHlwZSI6ImNoYW5jZS5hZGRyZXNzIn19LHsia2V5IjoiMjZjMjJhZGMtN2YzNC00Nzc1LThkOWUtYjE3NGI4ZDdmN2MwIiwibmFtZSI6Im9yZGVyX2xvY2F0aW9uIiwidHlwZSI6InZhbHVlIiwiY29uZmlnIjp7InZhbHVlVHlwZSI6ImNoYW5jZS5jb29yZGluYXRlcyJ9fV19LHsia2V5IjoiNGI3ZjEzMjAtM2I1NC00NjIzLWFlZDItN2MyMmJkNTVhMzA3IiwibmFtZSI6Im9yZGVyX2RldGFpbHMiLCJ0eXBlIjoiYXJyYXkiLCJjb25maWciOnsibWluTGVuZ3RoIjoxLCJtYXhMZW5ndGgiOjN9LCJjaGlsZHJlbiI6W3sia2V5IjoiYmExYjE4MWMtZjZhYy00YTBhLTliOWMtODUzMDM5MDBkMzQzIiwibmFtZSI6InByb2R1Y3RfaWQiLCJ0eXBlIjoidmFsdWUiLCJjb25maWciOnsidmFsdWVUeXBlIjoiaWQudXVpZHY0In19LHsia2V5IjoiNDMxNTc1OTMtM2VkYy00OGZkLTkzYTYtZDE3YWU3Y2Y0ZDhlIiwibmFtZSI6InByb2R1Y3RfbmFtZSIsInR5cGUiOiJ2YWx1ZSIsImNvbmZpZyI6eyJ2YWx1ZVR5cGUiOiJmYWtlcmpzLmNvbW1lcmNlLnByb2R1Y3QifX0seyJrZXkiOiJiYTIyMWNjNS0wOGYxLTQyMjktYmYwNi01Y2NjMmZmNTg4OTkiLCJuYW1lIjoicHJvZHVjdF9jb2xvciIsInR5cGUiOiJ2YWx1ZSIsImNvbmZpZyI6eyJ2YWx1ZVR5cGUiOiJmYWtlcmpzLmNvbG9yLmh1bWFuIn19LHsia2V5IjoiZTQwOTJlYTItMWQzNS00MjZjLThjMjctYTFmNmE2YWNkZmU0IiwibmFtZSI6InZlbmRvciIsInR5cGUiOiJ2YWx1ZSIsImNvbmZpZyI6eyJ2YWx1ZVR5cGUiOiJmYWtlcmpzLmNvbXBhbnkubmFtZSJ9fV19LHsia2V5IjoiMjE3NzE4NDItOTE0Zi00NzRmLTk4YWUtMTFmMDBmMjEyYzFjIiwibmFtZSI6Im1ldGEiLCJ0eXBlIjoib2JqZWN0IiwiY2hpbGRyZW4iOlt7ImtleSI6IjJlN2Y3OWEwLTA2NzUtNDE3Mi1iOWRiLTUzYmVmNDJiMGY5MiIsIm5hbWUiOiJjcmVhdGVkX2J5IiwidHlwZSI6InZhbHVlIiwiY29uZmlnIjp7InZhbHVlVHlwZSI6ImNoYW5jZS5lbWFpbCJ9fSx7ImtleSI6ImUwZjI1NTFhLWIyMmYtNGU4Mi04MTYxLTY4YzE4MjQ5NjRlYyIsIm5hbWUiOiJjcmVhdGVkX2F0IiwidHlwZSI6InZhbHVlIiwiY29uZmlnIjp7InZhbHVlVHlwZSI6ImNoYW5jZS50aW1lc3RhbXAifX1dfV19fQ%3D%3D`;  // Make sure to use the correct URL
+            const url2 = `https://no-land.vercel.app/api/mock?__q=eyJpZCI6IjJmYTkwN2I3LTA5NjEtNGU1OS1hZmY2LWYzMzY2ZDc2ZDJjNiIsInBhdGgiOiJvcmRlcnMiLCJtZXRob2QiOiJHRVQiLCJmaWVsZCI6eyJpc1Jvb3QiOnRydWUsIm5hbWUiOiI6cm9vdDoiLCJ0eXBlIjoiYXJyYXkiLCJrZXkiOiJhNzRhNDFmNi05NDVhLTQ3N2MtYTMwYi03NTE3ZGJhNzIyZTIiLCJjb25maWciOnsibWluTGVuZ3RoIjo1LCJtYXhMZW5ndGgiOjV9LCJjaGlsZHJlbiI6W3sia2V5IjoiNzYyOTUyYTctOTgwZi00OWNlLWJhZTAtMjY4Zjg1MzgyYmM0IiwibmFtZSI6Im9yZGVyX2lkIiwidHlwZSI6InZhbHVlIiwiY29uZmlnIjp7InZhbHVlVHlwZSI6ImlkLnV1aWR2NCJ9fSx7ImtleSI6IjA1NjJhOTJmLTI3MzctNDc3NC1hZGFkLTMyMDc0MjI1YTkyZCIsIm5hbWUiOiJvcmRlcl9kYXRlIiwidHlwZSI6InZhbHVlIiwiY29uZmlnIjp7InZhbHVlVHlwZSI6ImNoYW5jZS5kYXRlIn19LHsia2V5IjoiZWI3Yjk4M2MtNzRjZC00MTQ5LWE4OGEtZjE4YTE0YmRkNTVlIiwibmFtZSI6InRheF9wZXJjZW50YWdlIiwidHlwZSI6InZhbHVlIiwiY29uZmlnIjp7InZhbHVlVHlwZSI6InN0YXRpYy5udW1iZXIiLCJzdGF0aWNWYWx1ZSI6eyJudW1iZXIiOjAuMDF9fX0seyJrZXkiOiI1ZDViZjU2OC01YzEwLTQ5MzktOTAzNi0wZWM0MzczNjAwYjgiLCJuYW1lIjoiY29tcGFueV9jb2RlIiwidHlwZSI6InZhbHVlIiwiY29uZmlnIjp7InZhbHVlVHlwZSI6InN0YXRpYy5zdHJpbmciLCJzdGF0aWNWYWx1ZSI6eyJzdHJpbmciOiJDWFQifX19LHsia2V5IjoiN2VlOTQ4NmItMGU0MC00YTI5LTkwNWMtYWIyNzYxYTdlZGQyIiwibmFtZSI6ImlzX3ZhbGlkIiwidHlwZSI6InZhbHVlIiwiY29uZmlnIjp7InZhbHVlVHlwZSI6InN0YXRpYy5ib29sZWFuIiwic3RhdGljVmFsdWUiOnsiYm9vbGVhbiI6dHJ1ZX19fSx7ImtleSI6IjdkZTViOTczLTNmYTktNGVmYi1iNjEyLWM2M2Q0MjM3MGM4MCIsIm5hbWUiOiJjdXN0b21lciIsInR5cGUiOiJvYmplY3QiLCJjaGlsZHJlbiI6W3sia2V5IjoiZDhiZjczM2QtNGVkYi00NTU5LThmMDItYjMwYTE5MzM2NGZjIiwibmFtZSI6ImN1c3RvbWVyX2lkIiwidHlwZSI6InZhbHVlIiwiY29uZmlnIjp7InZhbHVlVHlwZSI6ImlkLnV1aWR2NCJ9fSx7ImtleSI6ImJhMTY2YzU4LTMyMzItNDRiZi1hYTgzLWRlZWRkYWE0ZDFiOCIsIm5hbWUiOiJjdXN0b21lcl9uYW1lIiwidHlwZSI6InZhbHVlIiwiY29uZmlnIjp7InZhbHVlVHlwZSI6ImNoYW5jZS5uYW1lIn19LHsia2V5IjoiMjkwN2Y0M2QtYWVkYi00MmI3LWJkNGMtZWRkMDRlZDc4NGMxIiwibmFtZSI6ImN1c3RvbWVyX2VtYWlsIiwidHlwZSI6InZhbHVlIiwiY29uZmlnIjp7InZhbHVlVHlwZSI6ImNoYW5jZS5lbWFpbCJ9fSx7ImtleSI6IjcyZThjNjAxLTI3NjctNDc3ZS05NGI1LTUwY2ZhMGU2NmI3YyIsIm5hbWUiOiJjdXN0b21lcl9hZGRyZXNzIiwidHlwZSI6InZhbHVlIiwiY29uZmlnIjp7InZhbHVlVHlwZSI6ImNoYW5jZS5hZGRyZXNzIn19LHsia2V5IjoiMjZjMjJhZGMtN2YzNC00Nzc1LThkOWUtYjE3NGI4ZDdmN2MwIiwibmFtZSI6Im9yZGVyX2xvY2F0aW9uIiwidHlwZSI6InZhbHVlIiwiY29uZmlnIjp7InZhbHVlVHlwZSI6ImNoYW5jZS5jb29yZGluYXRlcyJ9fV19LHsia2V5IjoiNGI3ZjEzMjAtM2I1NC00NjIzLWFlZDItN2MyMmJkNTVhMzA3IiwibmFtZSI6Im9yZGVyX2RldGFpbHMiLCJ0eXBlIjoiYXJyYXkiLCJjb25maWciOnsibWluTGVuZ3RoIjoxLCJtYXhMZW5ndGgiOjN9LCJjaGlsZHJlbiI6W3sia2V5IjoiYmExYjE4MWMtZjZhYy00YTBhLTliOWMtODUzMDM5MDBkMzQzIiwibmFtZSI6InByb2R1Y3RfaWQiLCJ0eXBlIjoidmFsdWUiLCJjb25maWciOnsidmFsdWVUeXBlIjoiaWQudXVpZHY0In19LHsia2V5IjoiNDMxNTc1OTMtM2VkYy00OGZkLTkzYTYtZDE3YWU3Y2Y0ZDhlIiwibmFtZSI6InByb2R1Y3RfbmFtZSIsInR5cGUiOiJ2YWx1ZSIsImNvbmZpZyI6eyJ2YWx1ZVR5cGUiOiJmYWtlcmpzLmNvbW1lcmNlLnByb2R1Y3QifX0seyJrZXkiOiJiYTIyMWNjNS0wOGYxLTQyMjktYmYwNi01Y2NjMmZmNTg4OTkiLCJuYW1lIjoicHJvZHVjdF9jb2xvciIsInR5cGUiOiJ2YWx1ZSIsImNvbmZpZyI6eyJ2YWx1ZVR5cGUiOiJmYWtlcmpzLmNvbG9yLmh1bWFuIn19LHsia2V5IjoiZTQwOTJlYTItMWQzNS00MjZjLThjMjctYTFmNmE2YWNkZmU0IiwibmFtZSI6InZlbmRvciIsInR5cGUiOiJ2YWx1ZSIsImNvbmZpZyI6eyJ2YWx1ZVR5cGUiOiJmYWtlcmpzLmNvbXBhbnkubmFtZSJ9fV19LHsia2V5IjoiMjE3NzE4NDItOTE0Zi00NzRmLTk4YWUtMTFmMDBmMjEyYzFjIiwibmFtZSI6Im1ldGEiLCJ0eXBlIjoib2JqZWN0IiwiY2hpbGRyZW4iOlt7ImtleSI6IjJlN2Y3OWEwLTA2NzUtNDE3Mi1iOWRiLTUzYmVmNDJiMGY5MiIsIm5hbWUiOiJjcmVhdGVkX2J5IiwidHlwZSI6InZhbHVlIiwiY29uZmlnIjp7InZhbHVlVHlwZSI6ImNoYW5jZS5lbWFpbCJ9fSx7ImtleSI6ImUwZjI1NTFhLWIyMmYtNGU4Mi04MTYxLTY4YzE4MjQ5NjRlYyIsIm5hbWUiOiJjcmVhdGVkX2F0IiwidHlwZSI6InZhbHVlIiwiY29uZmlnIjp7InZhbHVlVHlwZSI6ImNoYW5jZS50aW1lc3RhbXAifX1dfV19fQ%3D%3D`;  // Make sure to use the correct URL
+
+            fetch(url, {
+                method: 'GET',
+            })
+                .then(response => {
+                    // Extract the Access-Control-Allow-Headers header from the response
+                    return response.json()
+                })
+                .then((json) => {
+                    console.log("JSON", json)
+                    // Display the Access-Control-Allow-Headers and the JSON response
+                    document.getElementById('response').innerHTML = `
+                    <strong>JSON Response:</strong><br> ${JSON.stringify(json, null, 2)}
+                `;
+                })
+                .catch(error => {
+                    // Handle any errors
+                    document.getElementById('response').innerHTML = 'Error: ' + error;
+                });
+
+
+            fetch(url2, {
+                method: 'GET',
+            })
+        });
+    </script>
+</body>
+
+</html>
