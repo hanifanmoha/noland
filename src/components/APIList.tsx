@@ -5,7 +5,7 @@ import { Empty, List, Modal, Tabs, Tag } from 'antd';
 import { decodeFieldTree } from '@/utils/encoding';
 import { APIMethod, IAPIMock } from '@/interfaces/interfaces';
 import useMocker from '@/hooks/useMocker';
-import { exampleAPIList, exampleEmptyField } from '@/utils/initialvalue';
+import { exampleAPIList } from '@/utils/initialvalue';
 import { uuid } from 'uuidv4';
 
 const { TabPane } = Tabs;
@@ -27,7 +27,7 @@ interface SavedListPopupProps {
 }
 
 const APIList: React.FC<SavedListPopupProps> = ({ onClose, open }) => {
-    const { data, loadData } = useAPIStorage();
+    const { data, loadData, deleteData } = useAPIStorage();
     const { loadMock } = useMocker()
 
     useEffect(() => {
@@ -41,6 +41,14 @@ const APIList: React.FC<SavedListPopupProps> = ({ onClose, open }) => {
         }
         loadMock(newMock)
         onClose()
+    }
+
+    function handleDelete(id: string) {
+        if (!confirm('Are you sure you want to delete this API?')) {
+            return
+        }
+
+        deleteData(id)
     }
 
     const apiList = data.map(d => decodeFieldTree(d.datastring))
@@ -59,7 +67,8 @@ const APIList: React.FC<SavedListPopupProps> = ({ onClose, open }) => {
                         renderItem={(api) => (
                             <List.Item key={api.id}
                                 actions={[
-                                    <a key="list-load" onClick={() => handleLoad(api)}>Load</a>
+                                    <a key="list-load" onClick={() => handleLoad(api)}>Load</a>,
+                                    <a key="list-delete" onClick={() => handleDelete(api.id)}>Delete</a>,
                                 ]}>
                                 <Tag color={colors[api.method]}>{api.method}</Tag>
                                 {' '}

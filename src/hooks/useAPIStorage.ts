@@ -1,12 +1,10 @@
+import { useState, useEffect, useCallback } from 'react';
+import Dexie from 'dexie';
 import { IAPIStorage } from '@/interfaces/interfaces';
-import Dexie, { Table } from 'dexie';
-import { useCallback, useState, useEffect } from 'react';
-
-// Create Dexie instance and define schema
 
 // Extend Dexie and define the table type
 class NolandDB extends Dexie {
-    nolandapis!: Table<IAPIStorage>; // Strongly type the table
+    nolandapis!: Dexie.Table<IAPIStorage, string>; // Strongly type the table
 
     constructor() {
         super('nolanddb');
@@ -53,10 +51,21 @@ export function useAPIStorage() {
         }
     }, []);
 
+    // Delete data from IndexedDB
+    const deleteData = useCallback(async (id: string) => {
+        try {
+            await db.nolandapis.delete(id);
+            setData((prevData) => prevData.filter(item => item.id !== id));
+            console.log(`Data with id ${id} deleted successfully`);
+        } catch (error) {
+            console.error('Error deleting data:', error);
+        }
+    }, []);
+
     // Automatically load data on mount
     useEffect(() => {
         loadData();
     }, [loadData]);
 
-    return { data, saveData, loadData };
+    return { data, saveData, loadData, deleteData };
 }
