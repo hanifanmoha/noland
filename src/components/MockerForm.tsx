@@ -1,12 +1,9 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Alert, Button, Collapse, Input, notification, Popover, Select, Space, Tooltip, Tree } from 'antd'
+import { Alert, Button, Collapse, Input, notification, Popover, Select, Space, Tag, Tooltip, Tree } from 'antd'
 import type { TreeDataNode } from 'antd'
 import {
-  BorderlessTableOutlined,
-  FolderOutlined,
-  FileOutlined,
   EditOutlined,
   DeleteOutlined,
   PlusOutlined,
@@ -14,6 +11,7 @@ import {
   ArrowDownOutlined,
   SaveOutlined,
 } from '@ant-design/icons'
+import { PiBracketsCurlyBold, PiBracketsSquareBold } from 'react-icons/pi'
 
 import styles from './MockerForm.module.css'
 import { APIMethod, IField } from '@/interfaces/interfaces'
@@ -22,10 +20,7 @@ import MockerFormDrawer from './MockerFormDrawer'
 import useMocker from '@/hooks/useMocker'
 import debugLogger from '@/utils/log'
 import { FIELD_ROOT_NAME, PREFIX_API } from '@/utils/consts'
-import { el } from '@faker-js/faker'
-import { get } from 'http'
 import { useAPIStorage } from '@/hooks/useAPIStorage'
-import { v4 as uuid } from 'uuid';
 
 const { DirectoryTree } = Tree
 
@@ -37,12 +32,12 @@ interface IFormDrawerState {
 
 const getIcon = (type: FieldType) => {
   if (type === FieldType.ARRAY) {
-    return <FolderOutlined />
+    return <PiBracketsSquareBold className='anticon' />
   }
   if (type === FieldType.OBJECT) {
-    return <FileOutlined />
+    return <PiBracketsCurlyBold className='anticon' />
   }
-  return <BorderlessTableOutlined />
+  return <></>
 }
 
 const field2TreeData = (field: IField): TreeDataNode => {
