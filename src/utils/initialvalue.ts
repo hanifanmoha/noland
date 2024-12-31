@@ -1,6 +1,6 @@
 import { uuid } from 'uuidv4'
 
-import { IField } from '@/interfaces/interfaces'
+import { IAPIMock, IField } from '@/interfaces/interfaces'
 import { FieldType } from '@/utils/enums'
 import { FIELD_ROOT_NAME } from './consts'
 
@@ -35,7 +35,7 @@ export const exampleOrderList: IField = {
             name: 'order_date',
             type: FieldType.VALUE,
             config: {
-                valueType: 'chance.timestamp',
+                valueType: 'chance.date',
             },
         },
         {
@@ -187,4 +187,13 @@ export const exampleOrderList: IField = {
     ],
 }
 
-export const defaultFields = exampleOrderList
+export const exampleAPIList: IAPIMock[] = [
+    {
+        id: '',
+        path: 'orders',
+        method: 'GET',
+        field: exampleOrderList
+    }
+]
+
+export const defaultFields = exampleEmptyField

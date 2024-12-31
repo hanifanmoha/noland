@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Button, Collapse, Input, Popover, Select, Space, Tooltip, Tree } from 'antd'
+import { Alert, Button, Collapse, Input, Popover, Select, Space, Tooltip, Tree } from 'antd'
 import type { TreeDataNode } from 'antd'
 import {
   BorderlessTableOutlined,
@@ -194,6 +194,12 @@ const MockerForm = () => {
       value: method,
     }))
     return <div className={styles.config}>
+      <Alert
+        description="This config has no effect on the API yet."
+        type="info"
+        showIcon
+      />
+      <br />
       <div className={styles.configInput}>
         <Select
           className={styles.configInputMethod}

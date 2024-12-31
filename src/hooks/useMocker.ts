@@ -151,6 +151,7 @@ const useMocker = (): IUseMocker => {
   }
 
   const loadMockHistory = (mock: IAPIMock) => {
+    logger.log('loadMockHistory', mock)
     setID(mock.id)
     setMethod(mock.method)
     setPath(mock.path)

@@ -2,10 +2,12 @@
 import React, { useEffect } from 'react';
 import { useAPIStorage } from '@/hooks/useAPIStorage';
 import styels from './APIList.module.css'
-import { Badge, List, Modal, Tabs, Tag } from 'antd';
+import { Badge, Empty, List, Modal, Tabs, Tag } from 'antd';
 import { decodeFieldTree } from '@/utils/encoding';
 import { APIMethod, IAPIMock } from '@/interfaces/interfaces';
 import useMocker from '@/hooks/useMocker';
+import { exampleAPIList } from '@/utils/initialvalue';
+import { uuid } from 'uuidv4';
 
 const { TabPane } = Tabs;
 
@@ -34,7 +36,11 @@ const APIList: React.FC<SavedListPopupProps> = ({ onClose, open }) => {
     }, [loadData, open]);
 
     function handleLoad(mock: IAPIMock) {
-        loadMockHistory(mock)
+        const newMock = { ...mock }
+        if (!newMock.id) {
+            newMock.id = uuid()
+        }
+        loadMockHistory(newMock)
         onClose()
     }
 
@@ -48,8 +54,8 @@ const APIList: React.FC<SavedListPopupProps> = ({ onClose, open }) => {
             footer={[]}
         >
             <Tabs defaultActiveKey="1">
-                <TabPane tab="Saved Data" key="1">
-                    <List
+                <TabPane tab="Saved API" key="1">
+                    {apiList.length > 0 && <List
                         dataSource={apiList}
                         renderItem={(api) => (
                             <List.Item key={api.id}
@@ -61,18 +67,27 @@ const APIList: React.FC<SavedListPopupProps> = ({ onClose, open }) => {
                                 {api.path}
                             </List.Item>
                         )}
-                    />
+                    />}
+                    {apiList.length === 0 && <Empty
+                        image={Empty.PRESENTED_IMAGE_SIMPLE}
+                        imageStyle={{ height: 60 }}
+                        description={'You dont have any saved data.'}
+                    />}
                 </TabPane>
-                {/* <TabPane tab="Example Data" key="2">
-                    <List
-                        dataSource={exampleData}
-                        renderItem={(item) => (
-                            <List.Item key={item.id}>
-                                {JSON.stringify(item)}
-                            </List.Item>
-                        )}
-                    />
-                </TabPane> */}
+                <TabPane tab="Example API" key="2"><List
+                    dataSource={exampleAPIList}
+                    renderItem={(api) => (
+                        <List.Item key={api.id}
+                            actions={[
+                                <a key="list-load" onClick={() => handleLoad(api)}>Load</a>
+                            ]}>
+                            <Tag color={colors[api.method]}>{api.method}</Tag>
+                            {' '}
+                            {api.path}
+                        </List.Item>
+                    )}
+                />
+                </TabPane>
             </Tabs>
         </Modal>
     );
