@@ -1,9 +1,5 @@
 import {
-  createContext,
-  ReactNode,
-  useContext,
   useEffect,
-  useState,
 } from 'react'
 
 import { APIMethod, IAPIMock, IField } from '@/interfaces/interfaces'
@@ -11,6 +7,8 @@ import { FieldType } from '@/utils/enums'
 import debugLogger from '@/utils/log'
 import { useMockerContext } from '@/contexts/MockerContext'
 import { encodeFieldTree } from '@/utils/encoding'
+import { exampleEmptyField } from '@/utils/initialvalue'
+import { uuid } from 'uuidv4'
 
 const field2Map = (
   field: IField,
@@ -112,7 +110,7 @@ interface IUseMocker {
   onRemoveField: (fieldKey: string) => void
   onMoveField: (fieldKey: string, isMoveUp: boolean) => void
   getEncodedString: () => string
-  loadMockHistory: (mock: IAPIMock) => void
+  loadMock: (mock: IAPIMock) => void
 }
 
 const useMocker = (): IUseMocker => {
@@ -150,8 +148,8 @@ const useMocker = (): IUseMocker => {
     setFieldTree(updatedRoot)
   }
 
-  const loadMockHistory = (mock: IAPIMock) => {
-    logger.log('loadMockHistory', mock)
+  const loadMock = (mock: IAPIMock) => {
+    logger.log('loadMock', mock)
     setID(mock.id)
     setMethod(mock.method)
     setPath(mock.path)
@@ -181,7 +179,7 @@ const useMocker = (): IUseMocker => {
     setPath,
     setMethod,
     getEncodedString,
-    loadMockHistory
+    loadMock
   }
 }
 

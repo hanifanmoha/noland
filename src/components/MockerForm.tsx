@@ -224,6 +224,7 @@ const MockerForm = () => {
 
   function Response() {
     return <DirectoryTree
+      key={apiID}
       multiple
       showLine
       defaultExpandAll

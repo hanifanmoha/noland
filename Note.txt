@@ -1,6 +1,3 @@
-- tree open form
-- add item
-- move
-- add more types
-- sync with params
-- local storage
+- delete api
+- create more example
+- auto expand

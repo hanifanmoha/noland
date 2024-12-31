@@ -1,12 +1,11 @@
 // SavedListPopup.tsx
 import React, { useEffect } from 'react';
 import { useAPIStorage } from '@/hooks/useAPIStorage';
-import styels from './APIList.module.css'
-import { Badge, Empty, List, Modal, Tabs, Tag } from 'antd';
+import { Empty, List, Modal, Tabs, Tag } from 'antd';
 import { decodeFieldTree } from '@/utils/encoding';
 import { APIMethod, IAPIMock } from '@/interfaces/interfaces';
 import useMocker from '@/hooks/useMocker';
-import { exampleAPIList } from '@/utils/initialvalue';
+import { exampleAPIList, exampleEmptyField } from '@/utils/initialvalue';
 import { uuid } from 'uuidv4';
 
 const { TabPane } = Tabs;
@@ -29,7 +28,7 @@ interface SavedListPopupProps {
 
 const APIList: React.FC<SavedListPopupProps> = ({ onClose, open }) => {
     const { data, loadData } = useAPIStorage();
-    const { loadMockHistory } = useMocker()
+    const { loadMock } = useMocker()
 
     useEffect(() => {
         loadData();
@@ -40,7 +39,7 @@ const APIList: React.FC<SavedListPopupProps> = ({ onClose, open }) => {
         if (!newMock.id) {
             newMock.id = uuid()
         }
-        loadMockHistory(newMock)
+        loadMock(newMock)
         onClose()
     }
 

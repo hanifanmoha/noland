@@ -18,7 +18,10 @@
 }
 
 .menu {
-    margin-left: auto;
+    /* margin-left: auto;
+    width: 50%; */
+    flex: 1;
+    justify-content: right;
 }
 
 .layout {
