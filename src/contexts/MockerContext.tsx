@@ -6,7 +6,7 @@ import { decodeFieldTree, encodeFieldTree } from '@/utils/encoding'
 import { defaultFields, exampleOrderList } from '@/utils/initialvalue'
 import { useSearchParams } from 'next/navigation'
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
-import { uuid } from 'uuidv4'
+import { v4 as uuid } from 'uuid';
 
 interface IMockerContext {
   id: string

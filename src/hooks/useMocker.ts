@@ -8,7 +8,7 @@ import debugLogger from '@/utils/log'
 import { useMockerContext } from '@/contexts/MockerContext'
 import { encodeFieldTree } from '@/utils/encoding'
 import { exampleEmptyField } from '@/utils/initialvalue'
-import { uuid } from 'uuidv4'
+import { v4 as uuid } from 'uuid';
 
 const field2Map = (
   field: IField,

@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Alert, Button, Collapse, Input, Popover, Select, Space, Tooltip, Tree } from 'antd'
+import { Alert, Button, Collapse, Input, notification, Popover, Select, Space, Tooltip, Tree } from 'antd'
 import type { TreeDataNode } from 'antd'
 import {
   BorderlessTableOutlined,
@@ -25,7 +25,7 @@ import { FIELD_ROOT_NAME, PREFIX_API } from '@/utils/consts'
 import { el } from '@faker-js/faker'
 import { get } from 'http'
 import { useAPIStorage } from '@/hooks/useAPIStorage'
-import { uuid } from 'uuidv4'
+import { v4 as uuid } from 'uuid';
 
 const { DirectoryTree } = Tree
 
@@ -125,6 +125,10 @@ const MockerForm = () => {
     logger.log('onSave')
     const query = getEncodedString()
     saveData({ id: apiID, datastring: query })
+    notification.success({
+      message: 'API Saved',
+      duration: 1
+    });
   }
 
   const paramOptions = (props: TreeDataNode) => {
@@ -223,14 +227,25 @@ const MockerForm = () => {
   }
 
   function Response() {
-    return <DirectoryTree
-      key={apiID}
-      multiple
-      showLine
-      defaultExpandAll
-      treeData={[treeData]}
-      titleRender={parameter}
-    />
+    return <>
+      {!fieldTree.children?.length && <>
+        <Alert
+          description="You can load example from Load Saved API > Example API."
+          type="info"
+          showIcon
+        />
+        <br />
+      </>}
+      <DirectoryTree
+        key={apiID}
+        multiple
+        showLine
+        defaultExpandAll
+        treeData={[treeData]}
+        titleRender={parameter}
+        selectable={false}
+      />
+    </>
   }
 
   return (

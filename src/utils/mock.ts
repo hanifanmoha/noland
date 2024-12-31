@@ -1,6 +1,6 @@
 import { IField, IFieldConfig } from '@/interfaces/interfaces'
 import { FieldType } from './enums'
-import { uuid } from 'uuidv4'
+import { v4 as uuid } from 'uuid';
 import { CHANCE_MOCK_OPTIONS } from './chancejs'
 import { FAKERJS_MOCK_OPTIONS } from './fakerjs'
 

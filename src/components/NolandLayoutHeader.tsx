@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 import APIList from './APIList'
 import useMocker from '@/hooks/useMocker'
 import { AimOutlined } from '@ant-design/icons'
-import { uuid } from 'uuidv4'
+import { v4 as uuid } from 'uuid';
 import { exampleEmptyField } from '@/utils/initialvalue'
 
 const { Header } = Layout

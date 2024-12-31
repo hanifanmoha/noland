@@ -1,4 +1,4 @@
-import { uuid } from 'uuidv4'
+import { v4 as uuid } from 'uuid';
 
 import { IAPIMock, IField } from '@/interfaces/interfaces'
 import { FieldType } from '@/utils/enums'
