@@ -1,35 +1,40 @@
 import { IAPIStorage } from '@/interfaces/interfaces';
-import Dexie from 'dexie';
+import Dexie, { Table } from 'dexie';
 import { useCallback, useState, useEffect } from 'react';
 
 // Create Dexie instance and define schema
 
-const TABLE_NAME = 'nolandapis'
+// Extend Dexie and define the table type
+class NolandDB extends Dexie {
+    nolandapis!: Table<IAPIStorage>; // Strongly type the table
 
-const db = new Dexie('nolanddb');
+    constructor() {
+        super('nolanddb');
+        this.version(1).stores({
+            nolandapis: 'id, datastring', // Define schema: 'id' is the primary key
+        });
+    }
+}
 
-db.version(1).stores({
-    [TABLE_NAME]: 'id, datastring', // Define schema: 'id' is the primary key
-});
+const db = new NolandDB();
 
 // Custom Hook
 export function useAPIStorage() {
-    const [data, setData] = useState<Record<string, any>[]>([]); // To hold the list of items
+    const [data, setData] = useState<IAPIStorage[]>([]); // To hold the list of items
 
     // Save data to IndexedDB
     const saveData = useCallback(
-        async (data: IAPIStorage) => {
-            console.log(data)
-            const { id } = data;
+        async (item: IAPIStorage) => {
+            const { id } = item;
             try {
-                const items = await db.table(TABLE_NAME).get(id);
+                const existingItem = await db.nolandapis.get(id);
 
-                if (items) {
-                    await db.table(TABLE_NAME).update(id, data);
-                    console.log('Data updated successfully:', data);
+                if (existingItem) {
+                    await db.nolandapis.update(id, item);
+                    console.log('Data updated successfully:', item);
                 } else {
-                    await db.table(TABLE_NAME).add(data);
-                    console.log('Data saved successfully:', data);
+                    await db.nolandapis.add(item);
+                    console.log('Data saved successfully:', item);
                 }
             } catch (error) {
                 console.error('Error saving data:', error);
@@ -41,7 +46,7 @@ export function useAPIStorage() {
     // Load data from IndexedDB
     const loadData = useCallback(async () => {
         try {
-            const items = await db.table(TABLE_NAME).toArray();
+            const items = await db.nolandapis.toArray(); // Typed retrieval
             setData(items);
         } catch (error) {
             console.error('Error loading data:', error);

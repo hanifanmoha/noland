@@ -7,12 +7,14 @@ import DataViewer from './DataViewer'
 import Title from 'antd/es/typography/Title'
 import styles from './NolandLayout.module.css'
 import { useEffect, useState } from 'react'
+import APIList from './APIList'
 
 const { Content, Header } = Layout
 
 const NolandLayout = () => {
 
   const [loaded, setLoaded] = useState(false)
+  const [isAPIListOpen, setIsAPIListOpen] = useState(false)
 
   useEffect(() => {
     // set loaded after 5 seconds
@@ -36,7 +38,7 @@ const NolandLayout = () => {
             mode='horizontal'
             selectable={false}
             items={[
-              { key: 'history', label: 'Load Saved List' }
+              { key: 'history', label: 'Load Saved List', onClick: () => setIsAPIListOpen(true) }
             ]}
           />
         </Header>
@@ -52,6 +54,7 @@ const NolandLayout = () => {
           </Content>
         </Layout>
       </Layout>
+      {isAPIListOpen && <APIList onClose={() => setIsAPIListOpen(false)} open={isAPIListOpen} />}
     </ConfigProvider>
   )
 }
