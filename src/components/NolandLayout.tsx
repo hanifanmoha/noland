@@ -54,7 +54,7 @@ const NolandLayout = () => {
           </Content>
         </Layout>
       </Layout>
-      {isAPIListOpen && <APIList onClose={() => setIsAPIListOpen(false)} open={isAPIListOpen} />}
+      <APIList onClose={() => setIsAPIListOpen(false)} open={isAPIListOpen} />
     </ConfigProvider>
   )
 }

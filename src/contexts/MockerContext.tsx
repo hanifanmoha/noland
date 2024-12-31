@@ -10,6 +10,7 @@ import { uuid } from 'uuidv4'
 
 interface IMockerContext {
   id: string
+  setID: (id: string) => void,
   fieldTree: IField
   setFieldTree: (field: IField) => void
   method: APIMethod
@@ -48,6 +49,7 @@ const MockerProvider = ({ children }: { children: ReactNode }) => {
   const [fieldTree, setFieldTree] = useState(apiMock.field)
   const [method, setMethod] = useState<APIMethod>(apiMock.method)
   const [path, setPath] = useState(apiMock.path)
+  const [id, setID] = useState(apiMock.id)
 
   useEffect(() => {
     const encodedData = encodeFieldTree({
@@ -62,7 +64,7 @@ const MockerProvider = ({ children }: { children: ReactNode }) => {
   }, [fieldTree, path, method])
 
   return (
-    <MockerContext.Provider value={{ id: apiMock.id ?? uuid(), fieldTree, setFieldTree, method, setMethod, path, setPath }}>
+    <MockerContext.Provider value={{ id, setID, fieldTree, setFieldTree, method, setMethod, path, setPath }}>
       {children}
     </MockerContext.Provider>
   )

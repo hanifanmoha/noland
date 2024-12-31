@@ -4,7 +4,8 @@ import { useAPIStorage } from '@/hooks/useAPIStorage';
 import styels from './APIList.module.css'
 import { Badge, List, Modal, Tabs, Tag } from 'antd';
 import { decodeFieldTree } from '@/utils/encoding';
-import { APIMethod } from '@/interfaces/interfaces';
+import { APIMethod, IAPIMock } from '@/interfaces/interfaces';
+import useMocker from '@/hooks/useMocker';
 
 const { TabPane } = Tabs;
 
@@ -26,17 +27,23 @@ interface SavedListPopupProps {
 
 const APIList: React.FC<SavedListPopupProps> = ({ onClose, open }) => {
     const { data, loadData } = useAPIStorage();
+    const { loadMockHistory } = useMocker()
 
     useEffect(() => {
         loadData();
-    }, [loadData]);
+    }, [loadData, open]);
+
+    function handleLoad(mock: IAPIMock) {
+        loadMockHistory(mock)
+        onClose()
+    }
 
     const apiList = data.map(d => decodeFieldTree(d.datastring))
 
     return (
         <Modal
             title="API List"
-            open={true}
+            open={open}
             onCancel={onClose}
             footer={[]}
         >
@@ -45,7 +52,10 @@ const APIList: React.FC<SavedListPopupProps> = ({ onClose, open }) => {
                     <List
                         dataSource={apiList}
                         renderItem={(api) => (
-                            <List.Item key={api.id}>
+                            <List.Item key={api.id}
+                                actions={[
+                                    <a key="list-load" onClick={() => handleLoad(api)}>Load</a>
+                                ]}>
                                 <Tag color={colors[api.method]}>{api.method}</Tag>
                                 {' '}
                                 {api.path}
@@ -53,16 +63,16 @@ const APIList: React.FC<SavedListPopupProps> = ({ onClose, open }) => {
                         )}
                     />
                 </TabPane>
-                <TabPane tab="Example Data" key="2">
-                    {/* <List
+                {/* <TabPane tab="Example Data" key="2">
+                    <List
                         dataSource={exampleData}
                         renderItem={(item) => (
                             <List.Item key={item.id}>
                                 {JSON.stringify(item)}
                             </List.Item>
                         )}
-                    /> */}
-                </TabPane>
+                    />
+                </TabPane> */}
             </Tabs>
         </Modal>
     );

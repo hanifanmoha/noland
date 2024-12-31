@@ -6,7 +6,7 @@ import {
   useState,
 } from 'react'
 
-import { APIMethod, IField } from '@/interfaces/interfaces'
+import { APIMethod, IAPIMock, IField } from '@/interfaces/interfaces'
 import { FieldType } from '@/utils/enums'
 import debugLogger from '@/utils/log'
 import { useMockerContext } from '@/contexts/MockerContext'
@@ -112,12 +112,13 @@ interface IUseMocker {
   onRemoveField: (fieldKey: string) => void
   onMoveField: (fieldKey: string, isMoveUp: boolean) => void
   getEncodedString: () => string
+  loadMockHistory: (mock: IAPIMock) => void
 }
 
 const useMocker = (): IUseMocker => {
   const logger = debugLogger('useMocker', true)
 
-  const { id, fieldTree, setFieldTree, path, setPath, method, setMethod } = useMockerContext()
+  const { id, setID, fieldTree, setFieldTree, path, setPath, method, setMethod } = useMockerContext()
 
   const fieldMap = field2Map(fieldTree, undefined)
 
@@ -149,6 +150,13 @@ const useMocker = (): IUseMocker => {
     setFieldTree(updatedRoot)
   }
 
+  const loadMockHistory = (mock: IAPIMock) => {
+    setID(mock.id)
+    setMethod(mock.method)
+    setPath(mock.path)
+    setFieldTree(mock.field)
+  }
+
   const getEncodedString = () => {
     const query = encodeFieldTree({
       id,
@@ -171,7 +179,8 @@ const useMocker = (): IUseMocker => {
     onMoveField,
     setPath,
     setMethod,
-    getEncodedString
+    getEncodedString,
+    loadMockHistory
   }
 }
 
