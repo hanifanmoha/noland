@@ -4,7 +4,7 @@ Customizable faker api
 
 ## Preview And Demo
 
-![alt text](<Screen Shot 2025-01-01 at 01.41.25.png>)
+![preview](preview.png)
 
 https://no-land.vercel.app/
 
