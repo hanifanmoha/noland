@@ -277,9 +277,7 @@ const MockerForm = () => {
               onChange={e => handleHeaderChange(idx, 'value', e.target.value)}
               className={styles.headerValue}
             />
-            {headers.length > 1 && (
-              <Button danger onClick={() => removeHeader(idx)} icon={<DeleteOutlined />} />
-            )}
+            <Button danger onClick={() => removeHeader(idx)} icon={<DeleteOutlined />} />
           </div>
         ))}
         <Button type="dashed" onClick={addHeader} icon={<PlusOutlined />}>Add Header</Button>
