@@ -269,7 +269,7 @@ const MockerForm = () => {
           description={
             <ul>
               <li>You can load example from Load Saved API &gt; Example API, or</li>
-              <li>Add a response payload by hovering over <i>:root</i> below and clicking "+ Create Child"</li>
+              <li>Add a response payload by hovering over <i>:root</i> below and clicking {`+ Create Child`}</li>
             </ul>
           }
           type="info"
