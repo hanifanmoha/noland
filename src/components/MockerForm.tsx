@@ -187,6 +187,51 @@ const MockerForm = () => {
     )
   }
 
+  const [mockHeaders, setMockHeaders] = useState([{ key: '', value: '' }]);
+
+  function handleHeaderChange(idx: number, field: 'key' | 'value', val: string) {
+    setMockHeaders((prev) => {
+      const next = [...prev];
+      next[idx] = { ...next[idx], [field]: val };
+      return next;
+    });
+  }
+
+  function addHeader() {
+    setMockHeaders((prev) => [...prev, { key: '', value: '' }]);
+  }
+
+  function removeHeader(idx: number) {
+    setMockHeaders((prev) => prev.filter((_, i) => i !== idx));
+  }
+
+  function HeaderConfig() {
+    return (
+      <div className={styles.headerConfig}>
+        {mockHeaders.map((header, idx) => (
+          <div className={styles.headerRow}>
+            <Input
+              placeholder="Header Key"
+              value={header.key}
+              onChange={e => handleHeaderChange(idx, 'key', e.target.value)}
+              className={styles.headerKey}
+            />
+            <Input
+              placeholder="Header Value"
+              value={header.value}
+              onChange={e => handleHeaderChange(idx, 'value', e.target.value)}
+              className={styles.headerValue}
+            />
+            {mockHeaders.length > 1 && (
+              <Button danger onClick={() => removeHeader(idx)} icon={<DeleteOutlined />} />
+            )}
+          </div>
+        ))}
+        <Button type="dashed" onClick={addHeader} icon={<PlusOutlined />}>Add Header</Button>
+      </div>
+    );
+  }
+
   function Config() {
     const methodOptions = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD'].map((method) => ({
       label: method,
@@ -246,9 +291,10 @@ const MockerForm = () => {
   return (
     <div className={[styles.overflow, styles.container].join(' ')}>
       <Collapse
-        defaultActiveKey={['config', 'response']}
+        defaultActiveKey={['config', 'headers', 'response']}
         items={[
           { key: 'config', label: 'Configuration', children: Config() },
+          { key: 'headers', label: 'Mock Header Configuration', children: HeaderConfig() },
           { key: 'response', label: 'Response Structure', children: Response() }
         ]}
       />

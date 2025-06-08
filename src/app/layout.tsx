@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
-import { Plus_Jakarta_Sans } from 'next/font/google'
+import { Open_Sans } from 'next/font/google'
 import './globals.css'
 import MockerProvider from '@/contexts/MockerContext'
 import { Suspense } from 'react'
 import Script from 'next/script'
 
-const font = Plus_Jakarta_Sans({ weight: '400', subsets: ['latin'], display: 'swap' })
+const font = Open_Sans({ weight: '400', subsets: ['latin'], display: 'swap' })
 
 export const metadata: Metadata = {
   title: 'Noland',
