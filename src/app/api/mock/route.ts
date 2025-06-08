@@ -12,8 +12,15 @@ async function handler(request: NextRequest) {
     const query = request.nextUrl.searchParams.get(SPECIAL_QUERY_PARAMS_KEY)
 
     try {
-        const { field } = decodeFieldTree(query ?? '')
+        const apiMock = decodeFieldTree(query ?? '')
+        const { field, headers: customHeaders } = apiMock
         const jsonData = renderMocker(field)
+        // Set custom headers if provided
+        if (Array.isArray(customHeaders)) {
+            for (const header of customHeaders) {
+                if (header.key && header.value) headers.set(header.key, header.value)
+            }
+        }
         return NextResponse.json(jsonData, { headers })
     } catch (err) {
         return NextResponse.json({ error: err }, { status: 400, headers })

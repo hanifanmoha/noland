@@ -69,3 +69,5 @@ export function useAPIStorage() {
 
     return { data, saveData, loadData, deleteData };
 }
+
+// NOTE: datastring must include mockHeaders as part of the encoded IAPIMock object.

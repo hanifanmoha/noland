@@ -19,7 +19,7 @@ const signal = controller.signal
 
 const DataViewer = () => {
   const logger = debugLogger('DataViewer', true)
-  const { fieldTree, getEncodedString } = useMocker()
+  const { fieldTree, headers, getEncodedString } = useMocker()
   const [isFetching, setIsFetching] = useState(false)
   const [jsonData, setJsonData] = useState<any>({})
 
@@ -50,7 +50,7 @@ const DataViewer = () => {
       }
     }
     refetch()
-  }, [fieldTree])
+  }, [fieldTree, headers])
 
   const handleOpenNewTab = () => {
     const { host, path } = getURL()

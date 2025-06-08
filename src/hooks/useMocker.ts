@@ -1,8 +1,9 @@
 import {
   useEffect,
+  useState,
 } from 'react'
 
-import { APIMethod, IAPIMock, IField } from '@/interfaces/interfaces'
+import { APIMethod, IAPIMock, IField, IHeader } from '@/interfaces/interfaces'
 import { FieldType } from '@/utils/enums'
 import debugLogger from '@/utils/log'
 import { useMockerContext } from '@/contexts/MockerContext'
@@ -113,10 +114,11 @@ interface IUseMocker {
   loadMock: (mock: IAPIMock) => void
 }
 
-const useMocker = (): IUseMocker => {
+const useMocker = (): IUseMocker & { headers: IHeader[], setHeaders: (h: IHeader[]) => void } => {
   const logger = debugLogger('useMocker', true)
 
-  const { id, setID, fieldTree, setFieldTree, path, setPath, method, setMethod } = useMockerContext()
+  // Use headers from context
+  const { id, setID, fieldTree, setFieldTree, path, setPath, method, setMethod, headers, setHeaders } = useMockerContext()
 
   const fieldMap = field2Map(fieldTree, undefined)
 
@@ -154,6 +156,7 @@ const useMocker = (): IUseMocker => {
     setMethod(mock.method)
     setPath(mock.path)
     setFieldTree(mock.field)
+    setHeaders(mock.headers || [])
   }
 
   const getEncodedString = () => {
@@ -162,24 +165,29 @@ const useMocker = (): IUseMocker => {
       path,
       method,
       field: fieldTree,
+      headers,
     })
     return query
   }
 
   return {
+    // State
     id,
     fieldTree,
     fieldMap,
     path,
     method,
+    headers,
+    // Functions
+    setPath,
+    setMethod,
+    setHeaders,
     onUpdateField,
     onInsertField,
     onRemoveField,
     onMoveField,
-    setPath,
-    setMethod,
     getEncodedString,
-    loadMock
+    loadMock,
   }
 }
 

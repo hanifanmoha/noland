@@ -48,6 +48,28 @@
   margin-right: 12px;
 }
 
+.headerConfig {
+}
+
+.headerRow {
+  display: flex;
+  margin-bottom: 12px;
+}
+
+.headerKey {
+  width: 160px;
+  margin-right: 12px;
+}
+
+.headerValue {
+  flex: 1;
+  margin-right: 12px;
+}
+
+.headerValue:last-child {
+  margin-right: 0;
+}
+
 @media (max-width: 768px) {
   .container {
     height: auto;

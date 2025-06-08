@@ -1,6 +1,6 @@
 'use client'
 
-import { APIMethod, IAPIMock, IField } from '@/interfaces/interfaces'
+import { APIMethod, IAPIMock, IField, IHeader } from '@/interfaces/interfaces'
 import { SPECIAL_QUERY_PARAMS_KEY } from '@/utils/consts'
 import { decodeFieldTree, encodeFieldTree } from '@/utils/encoding'
 import { defaultFields } from '@/utils/initialvalue'
@@ -17,6 +17,8 @@ interface IMockerContext {
   setMethod: (method: APIMethod) => void
   path: string
   setPath: (path: string) => void
+  headers: IHeader[]
+  setHeaders: (headers: IHeader[]) => void
 }
 
 export const MockerContext = createContext<IMockerContext | undefined>(
@@ -37,7 +39,7 @@ function getFieldTreeInitialValue(encodedFieldTree: string): IAPIMock {
     }
   }
 
-  return { id: uuid(), path: '', method: 'GET', field: defaultFields }
+  return { id: uuid(), path: '', method: 'GET', field: defaultFields, headers: [] }
 
 }
 
@@ -50,6 +52,7 @@ const MockerProvider = ({ children }: { children: ReactNode }) => {
   const [method, setMethod] = useState<APIMethod>(apiMock.method)
   const [path, setPath] = useState(apiMock.path)
   const [id, setID] = useState(apiMock.id)
+  const [headers, setHeaders] = useState<IHeader[]>(apiMock.headers ?? [])
 
   useEffect(() => {
     const encodedData = encodeFieldTree({
@@ -57,14 +60,15 @@ const MockerProvider = ({ children }: { children: ReactNode }) => {
       path,
       method,
       field: fieldTree,
+      headers,
     })
     const url = new URL(window.location.href)
     url.searchParams.set(SPECIAL_QUERY_PARAMS_KEY, encodedData)
     window.history.replaceState({}, '', url)
-  }, [fieldTree, path, method])
+  }, [fieldTree, path, method, headers])
 
   return (
-    <MockerContext.Provider value={{ id, setID, fieldTree, setFieldTree, method, setMethod, path, setPath }}>
+    <MockerContext.Provider value={{ id, setID, fieldTree, setFieldTree, method, setMethod, path, setPath, headers, setHeaders }}>
       {children}
     </MockerContext.Provider>
   )
