@@ -69,6 +69,10 @@
   margin-right: 0;
 }
 
+.responseTree {
+  margin-bottom: 24px;
+}
+
 @media (max-width: 768px) {
   .container {
     height: auto;

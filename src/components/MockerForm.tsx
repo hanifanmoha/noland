@@ -10,6 +10,7 @@ import {
   ArrowUpOutlined,
   ArrowDownOutlined,
   SaveOutlined,
+  RocketOutlined,
 } from '@ant-design/icons'
 import { PiBracketsCurlyBold, PiBracketsSquareBold } from 'react-icons/pi'
 
@@ -19,7 +20,7 @@ import { FieldType } from '@/utils/enums'
 import MockerFormDrawer from './MockerFormDrawer'
 import useMocker from '@/hooks/useMocker'
 import debugLogger from '@/utils/log'
-import { FIELD_ROOT_NAME, PREFIX_API } from '@/utils/consts'
+import { FIELD_ROOT_NAME, PREFIX_API, SPECIAL_QUERY_PARAMS_KEY } from '@/utils/consts'
 import { useAPIStorage } from '@/hooks/useAPIStorage'
 
 const { DirectoryTree } = Tree
@@ -128,6 +129,42 @@ const MockerForm = () => {
     });
   }
 
+
+  const getURL = () => {
+    let host = ''
+    if (typeof window !== 'undefined') {
+      host = window.location.origin
+    }
+    const query = getEncodedString()
+    const url = `/api/mock?${SPECIAL_QUERY_PARAMS_KEY}=${query}`
+    return {
+      host,
+      path: url,
+    }
+  }
+
+  const handleOpenNewTab = () => {
+    const { host, path } = getURL()
+    const url = `${host}/${path}`
+    if (typeof window !== 'undefined') {
+      window.open(url, '_blank')
+    }
+  }
+
+  function handleHeaderChange(idx: number, field: 'key' | 'value', val: string) {
+    const next = [...headers];
+    next[idx] = { ...next[idx], [field]: val };
+    setHeaders(next);
+  }
+
+  function addHeader() {
+    setHeaders([...headers, { key: '', value: '' }]);
+  }
+
+  function removeHeader(idx: number) {
+    setHeaders(headers.filter((_, i) => i !== idx));
+  }
+
   const paramOptions = (props: TreeDataNode) => {
     const field = fieldMap[props.key as string]
     if (!field) return null
@@ -228,7 +265,13 @@ const MockerForm = () => {
     return <>
       {!fieldTree.children?.length && <>
         <Alert
-          description="You can load example from Load Saved API > Example API."
+          message="How to start?"
+          description={
+            <ul>
+              <li>You can load example from Load Saved API &gt; Example API, or</li>
+              <li>Add a response payload by hovering over <i>:root</i> below and clicking "+ Create Child"</li>
+            </ul>
+          }
           type="info"
           showIcon
         />
@@ -242,22 +285,10 @@ const MockerForm = () => {
         treeData={[treeData]}
         titleRender={parameter}
         selectable={false}
+        className={styles.responseTree}
       />
+      <Button icon={<RocketOutlined rotate={45} />} onClick={handleOpenNewTab}>Open API in New Page</Button>
     </>
-  }
-
-  function handleHeaderChange(idx: number, field: 'key' | 'value', val: string) {
-    const next = [...headers];
-    next[idx] = { ...next[idx], [field]: val };
-    setHeaders(next);
-  }
-
-  function addHeader() {
-    setHeaders([...headers, { key: '', value: '' }]);
-  }
-
-  function removeHeader(idx: number) {
-    setHeaders(headers.filter((_, i) => i !== idx));
   }
 
   function ResponseHeader() {
