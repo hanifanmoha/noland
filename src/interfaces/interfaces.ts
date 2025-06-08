@@ -6,11 +6,17 @@ export interface IAPIStorage {
   id: string,
   datastring: string
 }
+export interface IHeader {
+  key: string;
+  value: string;
+}
+
 export interface IAPIMock {
   id: string
   path: string
   method: APIMethod
   field: IField
+  headers?: IHeader[]
 }
 export interface IField {
   isRoot?: boolean
