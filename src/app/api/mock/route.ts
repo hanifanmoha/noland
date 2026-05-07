@@ -7,7 +7,8 @@ async function handler(request: NextRequest) {
 
     const headers = new Headers();
     headers.set('Access-Control-Allow-Origin', '*'); // Allow all origins
-    headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, HEAD, PATCH, OPTIONS'); // Allow specific methods
+    headers.set('Access-Control-Allow-Methods', '*'); // Allow specific methods
+    headers.set('Access-Control-Allow-Headers', '*');
 
     const query = request.nextUrl.searchParams.get(SPECIAL_QUERY_PARAMS_KEY)
 

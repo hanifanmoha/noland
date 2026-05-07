@@ -62,7 +62,7 @@ const DataViewer = () => {
 
   const handleCopy = async () => {
     const { host, path } = getURL()
-    const url = `${host}/${path}`
+    const url = `${host}${path}`
     if (typeof navigator !== 'undefined') {
       await navigator.clipboard.writeText(url)
     }
